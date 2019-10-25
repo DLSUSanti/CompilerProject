@@ -69,7 +69,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="976" />
@@ -101,7 +101,7 @@
     <property name="$PROJECT_DIR$/g.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/gen-visitor" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/output-dir" value="C:\Users\Santi\Desktop\COMPILE\CMPILERScanner\src" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572003897150" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572003899916" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
