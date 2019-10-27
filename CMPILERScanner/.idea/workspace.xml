@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8d5ec1fc-be30-444c-b1ec-0c27751bd9a2" name="Default Changelist" comment="" />
+    <list default="true" id="8d5ec1fc-be30-444c-b1ec-0c27751bd9a2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/g.g4" beforeDir="false" afterPath="$PROJECT_DIR$/g.g4" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/g.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-935">
-              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+            <state relative-caret-position="-187">
+              <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -69,7 +71,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="976" />
@@ -101,7 +103,7 @@
     <property name="$PROJECT_DIR$/g.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/gen-visitor" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/output-dir" value="C:\Users\Santi\Desktop\COMPILE\CMPILERScanner\src" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572004127616" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572163422794" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -168,7 +170,7 @@
       <window_info anchor="bottom" id="Tool Output" order="8" weight="0.32583067" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="ANTLR Preview" order="11" visible="true" weight="0.33118972" />
+      <window_info active="true" anchor="bottom" id="ANTLR Preview" order="11" visible="true" weight="0.41371918" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.3290461" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -241,8 +243,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/g.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-935">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+        <state relative-caret-position="-187">
+          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
         </state>
       </provider>
     </entry>

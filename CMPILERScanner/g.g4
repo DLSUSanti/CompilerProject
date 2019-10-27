@@ -1,10 +1,17 @@
 grammar g;
 
-program: block+ EOF;
+program: globaldelcaration* function* main function* EOF;
 
 block: ( declaration | assignment | condition | loop | operation | function | call | print) SEMICOLON;
 
+//function declaration
+main: MAIN LBRACE block* RBRACE;
+function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE block* (return)? RBRACE;
+call: CALL IDENTIFIER LPARENTHESIS (IDENTIFIER (COMMA IDENTIFIER)*)? RPARENTHESIS;
+return: RETURN booleanexp SEMICOLON;
+
 //type declaration
+globaldelcaration: GLOBAL declaration SEMICOLON;
 declaration: singledeclaration | arraydeclaration;
 singledeclaration: intdeclaration | floatdeclaration | chardeclaration | booleandeclaration;
 arraydeclaration: intarrdeclaration | floatarrdeclaration | chararrdeclaration;
@@ -41,13 +48,9 @@ shortopr: PLUS_PLUS | MINUS_MINUS | (PLUS_EQUALS | MIN_EQUALS | MUL_EQUALS | DIV
 //printing
 print: PRINT LPARENTHESIS (STRING_LITERAL | IDENTIFIER)? RPARENTHESIS;
 
-//function
-function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE block* RBRACE;
-call: CALL IDENTIFIER LPARENTHESIS (IDENTIFIER (COMMA IDENTIFIER)*)? RPARENTHESIS;
-
 //boolean parsing
 booleanexp: (NOT)?booleanvalue(relation booleanvalue)?;
-booleanvalue: INT_LITERAL | IDENTIFIER | STRING_LITERAL | CHAR_LITERAL;
+booleanvalue: INT_LITERAL | IDENTIFIER | STRING_LITERAL | CHAR_LITERAL | TRUE | FALSE;
 relation: (EQUALS_EQUALS | NOT_EQUALS | LESS_THAN_EQUALS | LESS_THAN | GREATER_THAN_EQUALS | GREATER_THAN);
 logic: (AND | OR);
 
@@ -79,21 +82,23 @@ BOOLEAN: 'booleen ';
 VOID: 'vide ';
 
 //Function keywords
-FUNCTION: 'une fonction ';
+FUNCTION: 'fonction ';
 CALL: 'appel ';
 PRINT: 'imprimer ';
-MAIN: 'essentiel ';
+MAIN: 'essentiel';
+RETURN: 'rappel ';
 
 //boolean keywords
 TRUE: 'vrai';
 FALSE: 'faux';
 
 //modifer
-PUBLIC: 'publique';
-PRIVATE: 'privee';
-STATIC: 'statique';
-INSTANTIATED: 'instancie';
-PROTECTED: 'protege';
+PUBLIC: 'publique ';
+PRIVATE: 'privee ';
+STATIC: 'statique ';
+INSTANTIATED: 'instancie ';
+PROTECTED: 'protege ';
+GLOBAL: 'global ';
 
 //identifier
 IDENTIFIER: LETTER LetterorDigit*;
