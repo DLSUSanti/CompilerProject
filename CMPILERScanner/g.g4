@@ -24,7 +24,7 @@ chardeclaration: CHARACTER IDENTIFIER (EQUALS CHAR_LITERAL)?;
 chararrdeclaration: STRING IDENTIFIER (EQUALS STRING_LITERAL)?;
 
 //assignment expression
-assignment: IDENTIFIER EQUALS (INT_LITERAL | FLOAT_LITERAL | CHAR_LITERAL | STRING_LITERAL);
+assignment: IDENTIFIER EQUALS (INT_LITERAL | FLOAT_LITERAL | CHAR_LITERAL | STRING_LITERAL | operation);
 
 //conditional blocks
 condition: IF LPARENTHESIS booleanexp (logic booleanexp)* RPARENTHESIS LBRACE block* RBRACE (ELSEIF LPARENTHESIS booleanexp (logic booleanexp)* RPARENTHESIS LBRACE block* RBRACE)* (ELSE LBRACE block* RBRACE)?;
@@ -46,11 +46,11 @@ terminalopr: IDENTIFIER | INT_LITERAL | FLOAT_LITERAL | LPARENTHESIS opr RPARENT
 shortopr: PLUS_PLUS | MINUS_MINUS | (PLUS_EQUALS | MIN_EQUALS | MUL_EQUALS | DIV_EQUALS) INT_LITERAL;
 
 //printing
-print: PRINT LPARENTHESIS (STRING_LITERAL | IDENTIFIER)? RPARENTHESIS;
+print: PRINT LPARENTHESIS (STRING_LITERAL | IDENTIFIER)? (PLUS (STRING_LITERAL | IDENTIFIER))* RPARENTHESIS;
 
 //boolean parsing
-booleanexp: (NOT)?booleanvalue(relation booleanvalue)?;
-booleanvalue: INT_LITERAL | IDENTIFIER | STRING_LITERAL | CHAR_LITERAL | TRUE | FALSE;
+booleanexp: (NOT)?booleanvalue(relation booleanvalue)? (logic booleanexp)*;
+booleanvalue: INT_LITERAL | IDENTIFIER | STRING_LITERAL | CHAR_LITERAL | TRUE | FALSE | LPARENTHESIS booleanexp RPARENTHESIS;
 relation: (EQUALS_EQUALS | NOT_EQUALS | LESS_THAN_EQUALS | LESS_THAN | GREATER_THAN_EQUALS | GREATER_THAN);
 logic: (AND | OR);
 
@@ -84,7 +84,7 @@ VOID: 'vide ';
 //Function keywords
 FUNCTION: 'fonction ';
 CALL: 'appel ';
-PRINT: 'imprimer ';
+PRINT: 'imprimer';
 MAIN: 'essentiel';
 RETURN: 'rappel ';
 

@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/g.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="174" lean-forward="true" selection-start-line="8" selection-start-column="174" selection-end-line="8" selection-end-column="174" />
+            <state relative-caret-position="238">
+              <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -103,7 +103,7 @@
     <property name="$PROJECT_DIR$/g.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/gen-visitor" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/output-dir" value="C:\Users\Santi\Desktop\COMPILE\CMPILERScanner\src" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572186816040" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572188363519" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -244,8 +244,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/g.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="174" lean-forward="true" selection-start-line="8" selection-start-column="174" selection-end-line="8" selection-end-column="174" />
+        <state relative-caret-position="238">
+          <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
         </state>
       </provider>
     </entry>
