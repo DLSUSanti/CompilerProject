@@ -2,12 +2,12 @@ grammar g;
 
 program: globaldelcaration* function* main function* EOF;
 
-block: ( declaration | assignment | condition | loop | operation | function | call | print) SEMICOLON;
+block: ( declaration | assignment | condition | loop | operation | function | call | print | scan) SEMICOLON;
 
 //function declaration
 main: MAIN LBRACE block* RBRACE;
 function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE block* (returnstatement)? RBRACE;
-call: CALL IDENTIFIER LPARENTHESIS (IDENTIFIER (COMMA IDENTIFIER)*)? RPARENTHESIS;
+call: CALL IDENTIFIER LPARENTHESIS ((IDENTIFIER|opr) (COMMA (IDENTIFIER|opr))*)? RPARENTHESIS;
 returnstatement: RETURN booleanexp SEMICOLON;
 
 //type declaration
@@ -16,15 +16,15 @@ declaration: singledeclaration | arraydeclaration;
 singledeclaration: intdeclaration | floatdeclaration | chardeclaration | booleandeclaration;
 arraydeclaration: intarrdeclaration | floatarrdeclaration | chararrdeclaration;
 booleandeclaration: BOOLEAN IDENTIFIER (EQUALS booleanexp (logic booleanexp)*);
-intdeclaration: INTEGER IDENTIFIER (EQUALS INT_LITERAL)?;
+intdeclaration: INTEGER IDENTIFIER (EQUALS (INT_LITERAL|opr))?;
 intarrdeclaration: INTEGER vararrname (EQUALS LBRACE INT_LITERAL(COMMA INT_LITERAL)* RBRACE)?;
-floatdeclaration: FLOATING_POINT IDENTIFIER (EQUALS FLOAT_LITERAL)?;
+floatdeclaration: FLOATING_POINT IDENTIFIER (EQUALS (FLOAT_LITERAL|opr))?;
 floatarrdeclaration: FLOATING_POINT vararrname (EQUALS LBRACE FLOAT_LITERAL (COMMA FLOAT_LITERAL)* RBRACE)?;
 chardeclaration: CHARACTER IDENTIFIER (EQUALS CHAR_LITERAL)?;
 chararrdeclaration: STRING IDENTIFIER (EQUALS STRING_LITERAL)?;
 
 //assignment expression
-assignment: IDENTIFIER EQUALS (INT_LITERAL | FLOAT_LITERAL | CHAR_LITERAL | STRING_LITERAL | operation);
+assignment: IDENTIFIER EQUALS ( opr | CHAR_LITERAL | STRING_LITERAL);
 
 //conditional blocks
 condition: IF LPARENTHESIS booleanexp (logic booleanexp)* RPARENTHESIS LBRACE block* RBRACE (ELSEIF LPARENTHESIS booleanexp (logic booleanexp)* RPARENTHESIS LBRACE block* RBRACE)* (ELSE LBRACE block* RBRACE)?;
@@ -45,8 +45,9 @@ terminalopr: IDENTIFIER | INT_LITERAL | FLOAT_LITERAL | LPARENTHESIS opr RPARENT
 
 shortopr: PLUS_PLUS | MINUS_MINUS | (PLUS_EQUALS | MIN_EQUALS | MUL_EQUALS | DIV_EQUALS) INT_LITERAL;
 
-//printing
+//printing and scanning
 print: PRINT LPARENTHESIS (STRING_LITERAL | IDENTIFIER)? (PLUS (STRING_LITERAL | IDENTIFIER))* RPARENTHESIS;
+scan: SCAN LPARENTHESIS STRING_LITERAL COMMA IDENTIFIER RPARENTHESIS;
 
 //boolean parsing
 booleanexp: (NOT)?booleanvalue(relation booleanvalue)? (logic booleanexp)*;
@@ -59,7 +60,7 @@ vararrname: IDENTIFIER LBRACKET INT_LITERAL RBRACKET;
 
 //literals
 CHAR_LITERAL: QUOTE_S . QUOTE_S;
-STRING_LITERAL: QUOTE_D .* QUOTE_D;
+STRING_LITERAL: QUOTE_D ~(';')* QUOTE_D;
 INT_LITERAL: MINUS? DIGIT+;
 FLOAT_LITERAL: MINUS? DIGIT+ (DOT DIGIT+)?;
 
@@ -85,6 +86,7 @@ VOID: 'vide ';
 FUNCTION: 'fonction ';
 CALL: 'appel ';
 PRINT: 'imprimer';
+SCAN: 'analyse';
 MAIN: 'essentiel';
 RETURN: 'rappel ';
 
