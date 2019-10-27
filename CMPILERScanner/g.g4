@@ -6,9 +6,9 @@ block: ( declaration | assignment | condition | loop | operation | function | ca
 
 //function declaration
 main: MAIN LBRACE block* RBRACE;
-function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE block* (return)? RBRACE;
+function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE block* (returnstatement)? RBRACE;
 call: CALL IDENTIFIER LPARENTHESIS (IDENTIFIER (COMMA IDENTIFIER)*)? RPARENTHESIS;
-return: RETURN booleanexp SEMICOLON;
+returnstatement: RETURN booleanexp SEMICOLON;
 
 //type declaration
 globaldelcaration: GLOBAL declaration SEMICOLON;
