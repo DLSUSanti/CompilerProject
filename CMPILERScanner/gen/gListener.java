@@ -57,15 +57,15 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitCall(gParser.CallContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#returnstatement}.
+	 * Enter a parse tree produced by {@link gParser#return}.
 	 * @param ctx the parse tree
 	 */
-	void enterReturnstatement(gParser.ReturnstatementContext ctx);
+	void enterReturn(gParser.ReturnContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link gParser#returnstatement}.
+	 * Exit a parse tree produced by {@link gParser#return}.
 	 * @param ctx the parse tree
 	 */
-	void exitReturnstatement(gParser.ReturnstatementContext ctx);
+	void exitReturn(gParser.ReturnContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#globaldelcaration}.
 	 * @param ctx the parse tree
@@ -306,16 +306,6 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrint(gParser.PrintContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link gParser#scan}.
-	 * @param ctx the parse tree
-	 */
-	void enterScan(gParser.ScanContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link gParser#scan}.
-	 * @param ctx the parse tree
-	 */
-	void exitScan(gParser.ScanContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#booleanexp}.
 	 * @param ctx the parse tree

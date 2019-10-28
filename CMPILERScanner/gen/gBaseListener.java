@@ -75,13 +75,13 @@ public class gBaseListener implements gListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnstatement(gParser.ReturnstatementContext ctx) { }
+	@Override public void enterReturn(gParser.ReturnContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnstatement(gParser.ReturnstatementContext ctx) { }
+	@Override public void exitReturn(gParser.ReturnContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -370,18 +370,6 @@ public class gBaseListener implements gListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPrint(gParser.PrintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterScan(gParser.ScanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitScan(gParser.ScanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

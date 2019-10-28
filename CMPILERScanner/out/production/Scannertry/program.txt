@@ -1,0 +1,14 @@
+global lettre c;
+
+fonction nombre mirror(nombre x){
+     rappel x;
+}
+
+essentiel{
+   nombre i=2;
+   faire{
+   decimale x = 3.3;
+   appel mirror(x);
+   c=x;
+   }tandis que(vrai);
+}

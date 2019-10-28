@@ -40,11 +40,11 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCall(gParser.CallContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link gParser#returnstatement}.
+	 * Visit a parse tree produced by {@link gParser#return}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitReturnstatement(gParser.ReturnstatementContext ctx);
+	T visitReturn(gParser.ReturnContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#globaldelcaration}.
 	 * @param ctx the parse tree
@@ -189,12 +189,6 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrint(gParser.PrintContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link gParser#scan}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitScan(gParser.ScanContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#booleanexp}.
 	 * @param ctx the parse tree
