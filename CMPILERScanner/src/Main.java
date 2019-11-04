@@ -31,7 +31,7 @@ public class Main {
         */
 
 
-        File file = new File("D:\\GitHub\\Scannertry\\src\\test-case.txt");
+        File file = new File("D:\\GitHub\\CompilerProject\\CMPILERScanner\\src\\test-case.txt");
         Scanner sc = new Scanner(file);
         sc.useDelimiter("\\Z");
 
@@ -43,15 +43,16 @@ public class Main {
 
         gParser parser = new gParser(tokens);
         // function call to error listener
-//        parser.removeErrorListeners();
+        parser.removeErrorListeners();
         parser.addErrorListener(errorListener);
+//        parser.getNumberOfSyntaxErrors();
 
         // Tree
         ParseTree tree = parser.program();
-        System.err.println(tree.toStringTree(parser));
-        Trees.inspect(tree, parser);
+//        System.err.println(tree.toStringTree(parser));
+//        Trees.inspect(tree, parser);
 
-        GUIErrorMessage(errorListener.errorMsg);
+//        GUIErrorMessage(errorListener.errorMsg);
 //        JOptionPane.showMessageDialog(null, errorListener.errorMsg, "ERROR MESSAGE", JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -71,6 +72,7 @@ public class Main {
         jFrame.setResizable(false);
         jFrame.show();
     }
+
     static class ErrorListener extends BaseErrorListener {
         //When the value is false, the syntaxError method returns without displaying errors.
         private static final boolean REPORT_SYNTAX_ERRORS = true;
@@ -87,8 +89,19 @@ public class Main {
                 sourceName = String.format("%s:%d:%d: ", sourceName, line, charPositionInLine);
             }
 
-            System.out.println("line "+line+":"+charPositionInLine+" "+msg);
+//            System.out.println("line "+line+":"+charPositionInLine+" "+msg);
             errorMsg = errorMsg + "\n" + "line "+line+":"+charPositionInLine+" "+msg;
+
+            if(msg.contains("no viable alternative")){
+                String split[] = msg.split("'");
+                System.err.println("line " + line+":"+charPositionInLine + " error '" + split[1] + "'");
+            }else if(msg.contains("mismatched input")){
+                String split[] = msg.split("'");
+                System.err.println("line " + line+":"+charPositionInLine + " missing '" + split[3] + "'");
+            }else if(msg.contains("extraneous input")){
+                String split[] = msg.split("'");
+                System.err.println("line " + line+":"+charPositionInLine + " extraneous input '" + split[1] + "'");
+            }
         }
         @Override
         public String toString() {
