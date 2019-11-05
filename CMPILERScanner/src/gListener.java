@@ -1,4 +1,4 @@
-// Generated from /Users/lorenzoavancena/IdeaProjects/Scannertry/g.g4 by ANTLR 4.7.2
+// Generated from D:/GitHub/CompilerProject/CMPILERScanner\g.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -16,16 +16,6 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProgram(gParser.ProgramContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link gParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlock(gParser.BlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link gParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlock(gParser.BlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#main}.
 	 * @param ctx the parse tree
@@ -177,6 +167,16 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitChararrdeclaration(gParser.ChararrdeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#forcedintdec}.
+	 * @param ctx the parse tree
+	 */
+	void enterForcedintdec(gParser.ForcedintdecContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#forcedintdec}.
+	 * @param ctx the parse tree
+	 */
+	void exitForcedintdec(gParser.ForcedintdecContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#assignment}.
 	 * @param ctx the parse tree
 	 */
@@ -307,6 +307,26 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitPrint(gParser.PrintContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#printblock}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintblock(gParser.PrintblockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#printblock}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintblock(gParser.PrintblockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#printcontent}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintcontent(gParser.PrintcontentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#printcontent}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintcontent(gParser.PrintcontentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#scan}.
 	 * @param ctx the parse tree
 	 */
@@ -317,6 +337,16 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitScan(gParser.ScanContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#nestedcondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterNestedcondition(gParser.NestedconditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#nestedcondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitNestedcondition(gParser.NestedconditionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#booleanexp}.
 	 * @param ctx the parse tree
 	 */
@@ -326,16 +356,6 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBooleanexp(gParser.BooleanexpContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link gParser#booleanvalue}.
-	 * @param ctx the parse tree
-	 */
-	void enterBooleanvalue(gParser.BooleanvalueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link gParser#booleanvalue}.
-	 * @param ctx the parse tree
-	 */
-	void exitBooleanvalue(gParser.BooleanvalueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#relation}.
 	 * @param ctx the parse tree
@@ -357,6 +377,16 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitLogic(gParser.LogicContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#booleanliteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterBooleanliteral(gParser.BooleanliteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#booleanliteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitBooleanliteral(gParser.BooleanliteralContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#vararrname}.
 	 * @param ctx the parse tree
 	 */
@@ -366,4 +396,24 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVararrname(gParser.VararrnameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(gParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(gParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(gParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(gParser.StatementContext ctx);
 }

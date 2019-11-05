@@ -1,0 +1,12 @@
+essentiel{
+    nombre x = 0;
+    decimale _veryWeirdIdentifier567 = 999.9;
+    booleen y = (5 > 4 && true) || (false && !(x==0));
+
+    analyse("What is the input: ", x);
+    imprimer("Input: " + x);
+
+    pour(nombre i = 0; i<5; i++){
+        imprimer("Hello World");
+    };
+}

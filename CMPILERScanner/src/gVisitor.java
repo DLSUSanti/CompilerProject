@@ -1,4 +1,4 @@
-// Generated from /Users/lorenzoavancena/IdeaProjects/Scannertry/g.g4 by ANTLR 4.7.2
+// Generated from D:/GitHub/CompilerProject/CMPILERScanner\g.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -15,12 +15,6 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProgram(gParser.ProgramContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link gParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlock(gParser.BlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#main}.
 	 * @param ctx the parse tree
@@ -112,6 +106,12 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitChararrdeclaration(gParser.ChararrdeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#forcedintdec}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForcedintdec(gParser.ForcedintdecContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -190,23 +190,35 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrint(gParser.PrintContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#printblock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintblock(gParser.PrintblockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#printcontent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrintcontent(gParser.PrintcontentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#scan}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitScan(gParser.ScanContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#nestedcondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNestedcondition(gParser.NestedconditionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#booleanexp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBooleanexp(gParser.BooleanexpContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link gParser#booleanvalue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBooleanvalue(gParser.BooleanvalueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#relation}.
 	 * @param ctx the parse tree
@@ -220,9 +232,27 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogic(gParser.LogicContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#booleanliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanliteral(gParser.BooleanliteralContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#vararrname}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVararrname(gParser.VararrnameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(gParser.BlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(gParser.StatementContext ctx);
 }

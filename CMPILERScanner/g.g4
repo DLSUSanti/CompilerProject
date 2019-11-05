@@ -2,13 +2,11 @@ grammar g;
 
 program: globaldelcaration* function* main function* EOF;
 
-block: ( declaration | assignment | condition | loop | operation | function | call | print | scan) SEMICOLON;
-
 //function declaration
-main: MAIN LBRACE block* RBRACE;
-function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE block* (returnstatement)? RBRACE;
+main: MAIN block;
+function: FUNCTION (INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? IDENTIFIER LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE statement* (returnstatement)? RBRACE;
 call: CALL IDENTIFIER LPARENTHESIS ((IDENTIFIER|opr) (COMMA (IDENTIFIER|opr))*)? RPARENTHESIS;
-returnstatement: RETURN booleanexp SEMICOLON;
+returnstatement: RETURN (IDENTIFIER|INT_LITERAL|FLOAT_LITERAL|CHAR_LITERAL|STRING_LITERAL|booleanexp|opr) SEMICOLON;
 
 //type declaration
 globaldelcaration: GLOBAL declaration SEMICOLON;
@@ -16,24 +14,25 @@ declaration: singledeclaration | arraydeclaration;
 singledeclaration: intdeclaration | floatdeclaration | chardeclaration | booleandeclaration;
 arraydeclaration: intarrdeclaration | floatarrdeclaration | chararrdeclaration;
 booleandeclaration: BOOLEAN IDENTIFIER (EQUALS booleanexp (logic booleanexp)*);
-intdeclaration: INTEGER IDENTIFIER (EQUALS (INT_LITERAL|opr))?;
-intarrdeclaration: INTEGER vararrname (EQUALS LBRACE INT_LITERAL(COMMA INT_LITERAL)* RBRACE)?;
-floatdeclaration: FLOATING_POINT IDENTIFIER (EQUALS (FLOAT_LITERAL|opr))?;
-floatarrdeclaration: FLOATING_POINT vararrname (EQUALS LBRACE FLOAT_LITERAL (COMMA FLOAT_LITERAL)* RBRACE)?;
-chardeclaration: CHARACTER IDENTIFIER (EQUALS CHAR_LITERAL)?;
-chararrdeclaration: STRING IDENTIFIER (EQUALS STRING_LITERAL)?;
+intdeclaration: INTEGER IDENTIFIER (EQUALS (INT_LITERAL|opr|call|IDENTIFIER))?;
+intarrdeclaration: INTEGER vararrname (EQUALS LBRACE (INT_LITERAL|opr|call|IDENTIFIER)(COMMA (INT_LITERAL|opr|call|IDENTIFIER))* RBRACE)?;
+floatdeclaration: FLOATING_POINT IDENTIFIER (EQUALS (FLOAT_LITERAL|opr|call|IDENTIFIER))?;
+floatarrdeclaration: FLOATING_POINT vararrname (EQUALS LBRACE (FLOAT_LITERAL|opr|call|IDENTIFIER) (COMMA (FLOAT_LITERAL|opr|call|IDENTIFIER))* RBRACE)?;
+chardeclaration: CHARACTER IDENTIFIER (EQUALS (CHAR_LITERAL|call))?;
+chararrdeclaration: STRING IDENTIFIER (EQUALS (STRING_LITERAL|call))?;
+forcedintdec: INTEGER IDENTIFIER EQUALS (INT_LITERAL|opr|call|IDENTIFIER);
 
 //assignment expression
-assignment: IDENTIFIER EQUALS ( opr | CHAR_LITERAL | STRING_LITERAL);
+assignment: IDENTIFIER EQUALS ( opr | CHAR_LITERAL | STRING_LITERAL | call);
 
-//conditional blocks
-condition: IF LPARENTHESIS booleanexp (logic booleanexp)* RPARENTHESIS LBRACE block* RBRACE (ELSEIF LPARENTHESIS booleanexp (logic booleanexp)* RPARENTHESIS LBRACE block* RBRACE)* (ELSE LBRACE block* RBRACE)?;
+//conditional statements
+condition: IF nestedcondition block (ELSEIF nestedcondition block)* (ELSE block)?;
 
-//looping blocks
+//looping statements
 loop: loopfor | loopwhile | loopdowhile;
-loopfor: FOR LPARENTHESIS (assignment | declaration) SEMICOLON booleanexp SEMICOLON operation RPARENTHESIS LBRACE block* RBRACE;
-loopwhile: WHILE LPARENTHESIS booleanexp RPARENTHESIS LBRACE block* RBRACE;
-loopdowhile: DO LBRACE block* RBRACE WHILE LPARENTHESIS booleanexp RPARENTHESIS;
+loopfor: FOR LPARENTHESIS (assignment | forcedintdec) SEMICOLON booleanexp SEMICOLON operation RPARENTHESIS block;
+loopwhile: WHILE nestedcondition block;
+loopdowhile: DO block WHILE nestedcondition;
 
 //operations
 operation: IDENTIFIER EQUALS opr | IDENTIFIER shortopr;
@@ -41,26 +40,33 @@ operation: IDENTIFIER EQUALS opr | IDENTIFIER shortopr;
 opr: addopr;
 addopr: addopr PLUS multopr | addopr MINUS multopr | multopr;
 multopr: multopr MUL terminalopr | multopr DIV terminalopr | multopr MOD terminalopr | terminalopr;
-terminalopr: IDENTIFIER | INT_LITERAL | FLOAT_LITERAL | LPARENTHESIS opr RPARENTHESIS;
+terminalopr: IDENTIFIER | INT_LITERAL | FLOAT_LITERAL | LPARENTHESIS opr RPARENTHESIS| call;
 
 shortopr: PLUS_PLUS | MINUS_MINUS | (PLUS_EQUALS | MIN_EQUALS | MUL_EQUALS | DIV_EQUALS) INT_LITERAL;
 
 //printing and scanning
-print: PRINT LPARENTHESIS (STRING_LITERAL | IDENTIFIER)? (PLUS (STRING_LITERAL | IDENTIFIER))* RPARENTHESIS;
+print: PRINT printblock;
+printblock: LPARENTHESIS printcontent RPARENTHESIS;
+printcontent: printcontent PLUS printcontent | STRING_LITERAL | IDENTIFIER;
 scan: SCAN LPARENTHESIS STRING_LITERAL COMMA IDENTIFIER RPARENTHESIS;
 
 //boolean parsing
-booleanexp: (NOT)?booleanvalue(relation booleanvalue)? (logic booleanexp)*;
-booleanvalue: INT_LITERAL | IDENTIFIER | STRING_LITERAL | CHAR_LITERAL | TRUE | FALSE | LPARENTHESIS booleanexp RPARENTHESIS;
+nestedcondition: LPARENTHESIS booleanexp RPARENTHESIS;
+booleanexp: LPARENTHESIS booleanexp RPARENTHESIS | NOT booleanexp | booleanexp logic booleanexp | booleanexp relation booleanexp| booleanliteral | opr;
 relation: (EQUALS_EQUALS | NOT_EQUALS | LESS_THAN_EQUALS | LESS_THAN | GREATER_THAN_EQUALS | GREATER_THAN);
 logic: (AND | OR);
+booleanliteral:(TRUE | FALSE);
 
 //variable array
 vararrname: IDENTIFIER LBRACKET INT_LITERAL RBRACKET;
 
+block: LBRACE statement* RBRACE;
+
+statement: ( declaration | assignment | condition | loop | operation | call | print | scan) SEMICOLON;
+
 //literals
 CHAR_LITERAL: QUOTE_S . QUOTE_S;
-STRING_LITERAL: QUOTE_D ~('"')* QUOTE_D;
+STRING_LITERAL: QUOTE_D (~'"')* QUOTE_D;
 INT_LITERAL: MINUS? DIGIT+;
 FLOAT_LITERAL: MINUS? DIGIT+ (DOT DIGIT+)?;
 
@@ -75,12 +81,12 @@ WHILE: 'tandis que';
 DO: 'faire';
 
 //Variable types
-INTEGER: 'nombre ';
-FLOATING_POINT: 'decimale ';
-CHARACTER: 'lettre ';
-STRING: 'mot ';
-BOOLEAN: 'booleen ';
-VOID: 'vide ';
+INTEGER: 'nombre';
+FLOATING_POINT: 'decimale';
+CHARACTER: 'lettre';
+STRING: 'mot';
+BOOLEAN: 'booleen';
+VOID: 'vide';
 
 //Function keywords
 FUNCTION: 'fonction ';
@@ -152,7 +158,7 @@ NOT: '!';
 DIGIT: [0-9];
 LETTER:[a-zA-Z$_];
 
-fragment LetterorDigit: DIGIT | LETTER;
+fragment LetterorDigit: DIGIT | LETTER | '_';
 
 //skip
 WS: [ \t\r\n]+ -> skip;
