@@ -3,67 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="7ca0be1a-c1f9-4c74-ae4c-c5f8f81744c9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/g.g4" beforeDir="false" afterPath="$PROJECT_DIR$/g.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Scannertry/Main$ErrorListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/Main$ErrorListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/g.interp" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/g.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/g.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/g.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gBaseListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gBaseListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gBaseVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gBaseVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gLexer.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gLexer.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$AddoprContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$AddoprContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ArraydeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ArraydeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$AssignmentContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$AssignmentContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$BlockContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$BlockContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$BooleandeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$BooleandeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$BooleanexpContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$BooleanexpContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$BooleanvalueContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$CallContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$CallContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ChararrdeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ChararrdeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ChardeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ChardeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ConditionContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ConditionContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$DeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$DeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$FloatarrdeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$FloatarrdeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$FloatdeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$FloatdeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$FunctionContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$FunctionContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$GlobaldelcarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$GlobaldelcarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$IntarrdeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$IntarrdeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$IntdeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$IntdeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$LogicContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$LogicContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopdowhileContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopdowhileContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopforContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopforContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopwhileContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$LoopwhileContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$MainContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$MainContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$MultoprContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$MultoprContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$OperationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$OperationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$OprContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$OprContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$PrintContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$PrintContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ProgramContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ProgramContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$RelationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$RelationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ReturnstatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ReturnstatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ScanContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ScanContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$ShortoprContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$ShortoprContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$SingledeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$SingledeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$TerminaloprContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$TerminaloprContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser$VararrnameContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser$VararrnameContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/gVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/gVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/test-case.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/test-case.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Scannertry/parser_test_3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Scannertry/parser_test_3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/g.interp" beforeDir="false" afterPath="$PROJECT_DIR$/src/g.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/g.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/src/g.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gBaseListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gBaseVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/src/gLexer.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/src/gLexer.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test-case.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test-case.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser_test_3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser_test_3.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -156,6 +99,7 @@
       <workItem from="1572291443305" duration="60000" />
       <workItem from="1572292139149" duration="20000" />
       <workItem from="1572962110649" duration="4596000" />
+      <workItem from="1573053585806" duration="65000" />
     </task>
     <servers />
   </component>

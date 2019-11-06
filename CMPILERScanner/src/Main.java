@@ -9,28 +9,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-        /*
-        String src = " public void performFunction(int x)\n" +
-                "{\n" +
-                "float _sampleIdentifier123 = 999.9f;\n" +
-                "boolean y = (5 > 4 && true) || (false && !(x==0));\n" +
-                "}";
-        JavaLexer lexer = new JavaLexer(new ANTLRInputStream(src));
-        while(true) {
-            Token token = lexer.nextToken();
-            if(token.getType() == JavaLexer.EOF) {
-                break;
-            }
-            //if(token.getType()>=61 && token.getType()<=69){
-            //    System.out.println("Separators" + " :: " + token.getText());
-            //}
-            System.out.println(token.getType() + " :: " + token.getText());
-
-        }
-        */
-
-
 //        File file = new File("D:\\GitHub\\CompilerProject\\CMPILERScanner\\src\\test-case.txt");
         File file = new File("D:\\GitHub\\CompilerProject\\CMPILERScanner\\src\\parser_test_2.txt");
         Scanner sc = new Scanner(file);
@@ -51,8 +29,9 @@ public class Main {
         // Tree
         ParseTree tree = parser.program();
 //        System.err.println(tree.toStringTree(parser));
-//        Trees.inspect(tree, parser);
+        Trees.inspect(tree, parser);
 
+        // GUI Interface
 //        GUIErrorMessage(errorListener.errorMsg);
 //        JOptionPane.showMessageDialog(null, errorListener.errorMsg, "ERROR MESSAGE", JOptionPane.PLAIN_MESSAGE);
     }
@@ -94,32 +73,41 @@ public class Main {
             errorMsg = errorMsg + "\n" + "line "+line+":"+charPositionInLine+" "+msg;
 
             // mismatched input
-            if(msg.contains("{';', '+', '-', '*', '/', '%'}")){
+            if(msg.contains("mismatched input")) {
                 String split[] = msg.split("'");
-                System.err.println("line " + line + ":" + charPositionInLine + " expecting '" + split[3] + "'");
-            }else if(msg.contains("CHAR_LITERAL, STRING_LITERAL, INT_LITERAL, FLOAT_LITERAL")){
-                System.err.println("line " + line + ":" + charPositionInLine + " expecting identifier");
-            }else if(msg.contains("STRING_LITERAL, IDENTIFIER")){
-                System.err.println("line " + line + ":" + charPositionInLine + " expected expression");
-            }else if(msg.contains("')', ','")){
-                System.err.println("line " + line + ":" + charPositionInLine + " expecting ')' or ','");
-            }else if(msg.contains("mismatched input '('")) {
-                System.err.println("line " + line + ":" + charPositionInLine + " expecting ';'");
-            }else if(msg.contains("expecting '='")){
-                System.err.println("line " + line + ":" + charPositionInLine + " variable might not be initialized");
+                if (msg.contains("{';', '+', '-', '*', '/', '%'}")) {
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1]  + "' expecting '" + split[3] + "'");
+                } else if (msg.contains("CHAR_LITERAL, STRING_LITERAL, INT_LITERAL, FLOAT_LITERAL")) {
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] +  "' expecting identifier");
+                } else if (msg.contains("STRING_LITERAL, IDENTIFIER")) {
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' expected identifier");
+                } else if (msg.contains("expecting {')'")) {
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' expecting operator or symbol");
+                }else if(msg.contains("expecting ';'")) {
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' expecting ';'");
+                }else if(msg.contains("expecting '='")){
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' expecting '='");
+                }
             }
             // no viable alternative
-            else if(msg.contains("no viable alternative")){
-                System.err.println("line " + line + ":" + charPositionInLine + " not a statement");
+            if(msg.contains("no viable alternative")){
+                String split[] = msg.split("'");
+                System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' not a statement");
             }
             // extraneous input
-            else if(msg.contains("extraneous input")){
+            if(msg.contains("extraneous input")){
                 String split[] = msg.split("'");
-                System.err.println("line " + line + ":" + charPositionInLine + " parameter expected in '" + split[1] + "'");
+                String split1[] = msg.split(",");
+                System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' missing identifier");
             }
             // missing
-            else if(msg.contains("missing ';' at '}'")){
-                System.err.println("line " + line + ":" + charPositionInLine + " missing ';'");
+            if(msg.contains("missing")) {
+                String split[] = msg.split("'");
+                if (msg.contains("missing ';' at '}'")) {
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' missing ';'");
+                }else{
+                    System.err.println("line " + line + ":" + charPositionInLine + " Hi! There is something wrong here --> '" + split[1] + "' missing");
+                }
             }
         }
         @Override
@@ -127,50 +115,4 @@ public class Main {
             return errorMsg;
         }
     }
-
-//    void testOne(){
-//        int x = 0;
-////        System.out.println(."Hello. I need your number:" , x);
-//
-//        for(int i; i< 10; i += 1){
-//            System.out.println(("Yes " + x);
-//        };
-//        x=5x;
-//    }
-//
-//    void testTwo(float x){
-//        if(x==2){
-//            System.out.println("x is a very huge number");
-//        };
-//    }
-//
-//    void testThree(int  x,, int y){
-//        int i = 0;
-//        do {
-//            i++;
-//        }while (i == x);
-//    }
-//
-//    void testFour(int x, int y, int z){
-//        int sum = x + y + z;
-//    }
-//
-//    fonction vide testFive(){
-//        imprimer("Hello");
-//    }
-//
-//    essentiel{
-//        decimale value = (5*1) + (5*5/1+3+(4+(5*3)))/2.0*8.0;
-//        appel testOne();
-//        appel testTwo(value);
-//
-//        appel testTwo(5.0);
-//        appel testTwo(5.0;
-//        appel testThree(25, 13);
-//        appel testThree((12*10), (54*5));
-//        appel testThree(4,,5);
-//        appel testThree(4,5);
-//    }
-//
-
 }

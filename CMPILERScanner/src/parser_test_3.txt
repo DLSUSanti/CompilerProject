@@ -4,12 +4,12 @@ fonction vide testOne(){
 
     pour(nombre i; i<10; i+=1){
         imprimer("Hello " +x+);
-    }
+
 }
 
 fonction vide testTwo(decimale x){
-    si(x == 4){
-        imprimer(x);
+    si(x = 4){
+        imprimer(x is a very huge number);
     };
 }
 
