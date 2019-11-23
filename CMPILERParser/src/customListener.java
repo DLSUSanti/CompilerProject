@@ -20,6 +20,7 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitMain(gParser.MainContext ctx) {
+
         System.out.println("[Listener] MAIN --> " +ctx.MAIN());
     }
 
@@ -36,7 +37,9 @@ public class customListener extends gBaseListener {
     }
 
     @Override
+    //globaldelcaration: GLOBAL declaration SEMICOLON;
     public void exitGlobaldelcaration(gParser.GlobaldelcarationContext ctx) {
+
     }
 
     @Override
@@ -61,7 +64,17 @@ public class customListener extends gBaseListener {
     public void exitIntdeclaration(gParser.IntdeclarationContext ctx) {
         System.out.println(ctx.INTEGER());
         System.out.println(ctx.id.IDENTIFIER());
-        System.out.println(ctx.EQUALS());
+
+        if (ctx.opr().addopr().multopr().terminalopr().intliteral().INT_LITERAL() == null) {
+            if (ctx.EQUALS() == null) {
+                System.err.println("Missing equal sign");
+            } else {
+                System.out.println(ctx.EQUALS().getText());
+            }
+        } else {
+            System.out.println(ctx.EQUALS());
+            System.out.println(ctx.opr().addopr().multopr().terminalopr().intliteral().INT_LITERAL());
+        }
     }
 
     @Override
@@ -78,6 +91,19 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitChardeclaration(gParser.ChardeclarationContext ctx) {
+//        System.out.println(ctx.INTEGER());
+//        System.out.println(ctx.id.IDENTIFIER());
+//
+//        try {
+//            if (!ctx.opr().addopr().multopr().terminalopr().intliteral().INT_LITERAL().getSymbol().equals("")) {
+//                if (ctx.EQUALS().getSymbol().equals("")) {
+//                    System.err.println("No");
+//                } else {
+//                    System.out.println(ctx.EQUALS());
+//                    System.out.println(ctx.opr().addopr().multopr().terminalopr().intliteral().INT_LITERAL());
+//                }
+//            }
+//        } catch (NullPointerException e){}
     }
 
     @Override
@@ -204,7 +230,7 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitIntliteral(gParser.IntliteralContext ctx) {
-        System.out.println(ctx.INT_LITERAL());
+//        System.out.println(ctx.INT_LITERAL());
     }
 
     @Override

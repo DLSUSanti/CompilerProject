@@ -22,6 +22,9 @@ public class main {
         ParseTreeWalker walker = new ParseTreeWalker();
         customListener listener = new customListener();
         walker.walk(listener,tree);
+//
+//        customErrorVisitor customErrorVisitor = new customErrorVisitor();
+//        customErrorVisitor.visit(tree);
 
         customVisitor visitor = new customVisitor();
         visitor.visit(tree);
