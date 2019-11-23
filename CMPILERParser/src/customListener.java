@@ -231,6 +231,10 @@ public class customListener extends gBaseListener {
     @Override
     public void exitIntliteral(gParser.IntliteralContext ctx) {
 //        System.out.println(ctx.INT_LITERAL());
+//
+//        if(ctx.INT_LITERAL() != null){
+//            System.out.println(ctx.INT_LITERAL());
+//        }
     }
 
     @Override
