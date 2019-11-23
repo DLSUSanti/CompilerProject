@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f15436fc-4831-4baf-9a89-944f7570cfcb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mainInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CMPILERParser/customListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CMPILERParser/customListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CMPILERParser/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CMPILERParser/main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/customListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/customListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcases/interpreter_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testcases/interpreter_test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcases/parser_test_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testcases/parser_test_1.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +83,7 @@
       <option name="presentableId" value="Default" />
       <updated>1574494481576</updated>
       <workItem from="1574494484755" duration="380000" />
-      <workItem from="1574496171953" duration="764000" />
+      <workItem from="1574496171953" duration="3798000" />
     </task>
     <servers />
   </component>

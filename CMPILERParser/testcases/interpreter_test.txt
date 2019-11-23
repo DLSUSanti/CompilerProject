@@ -17,4 +17,3 @@ essentiel{
     };
 
     imprimer("Answer: " + z);
-}
