@@ -4,11 +4,14 @@
     <list default="true" id="f15436fc-4831-4baf-9a89-944f7570cfcb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CMPILERParser/customListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CMPILERParser/customListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CMPILERParser/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CMPILERParser/main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/customListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/customListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gBaseListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gBaseListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gBaseVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gBaseVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testcases/interpreter_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testcases/interpreter_test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testcases/parser_test_1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testcases/parser_test_1.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,11 +35,11 @@
     <property name="$PROJECT_DIR$/g.g4::/auto-gen" value="false" />
     <property name="$PROJECT_DIR$/g.g4::/gen-listener" value="true" />
     <property name="$PROJECT_DIR$/g.g4::/gen-visitor" value="true" />
-    <property name="$PROJECT_DIR$/g.g4::/output-dir" value="D:\GitHub\CMPILERParserErrorMessage\src" />
+    <property name="$PROJECT_DIR$/g.g4::/output-dir" value="D:\GitHub\CompilerProject\CMPILERParser\src" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -83,7 +86,7 @@
       <option name="presentableId" value="Default" />
       <updated>1574494481576</updated>
       <workItem from="1574494484755" duration="380000" />
-      <workItem from="1574496171953" duration="3798000" />
+      <workItem from="1574496171953" duration="7547000" />
     </task>
     <servers />
   </component>

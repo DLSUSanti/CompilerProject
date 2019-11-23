@@ -1,4 +1,4 @@
-// Generated from D:/GitHub/CMPILERParserErrorMessage\g.g4 by ANTLR 4.7.2
+// Generated from D:/GitHub/CompilerProject/CMPILERParser\g.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

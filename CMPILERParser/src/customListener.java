@@ -5,8 +5,17 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 public class customListener extends gBaseListener {
 
     @Override
-    public void exitProgram(gParser.ProgramContext ctx) {
+    public void exitProgram(gParser.ProgramContext ctx){
         System.out.println("Listener --> " + ctx.getText());
+
+        try {
+            if(ctx.main().MAIN().toString().isEmpty()) {
+                System.err.println("Missing Main");
+            }
+        }catch (NullPointerException e) {
+            System.err.println("Missing Main");
+        }
+
     }
 
     @Override
@@ -44,10 +53,15 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitBooleandeclaration(gParser.BooleandeclarationContext ctx) {
+
     }
 
     @Override
+    // intdeclaration: INTEGER id=identifier (EQUALS (opr|call|identifier))?;
     public void exitIntdeclaration(gParser.IntdeclarationContext ctx) {
+        System.out.println(ctx.INTEGER());
+        System.out.println(ctx.id.IDENTIFIER());
+        System.out.println(ctx.EQUALS());
     }
 
     @Override
@@ -177,6 +191,7 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitIdentifier(gParser.IdentifierContext ctx) {
+
     }
 
     @Override
@@ -189,6 +204,7 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitIntliteral(gParser.IntliteralContext ctx) {
+        System.out.println(ctx.INT_LITERAL());
     }
 
     @Override
@@ -197,9 +213,12 @@ public class customListener extends gBaseListener {
 
     @Override
     public void exitBlock(gParser.BlockContext ctx) {
-        System.out.println("[Listener] exitBlock --> " + ctx.getText());
-        System.out.println("[Listener] Block -> " + ctx.LBRACE());
-        System.out.println("[Listener] Block -> " + ctx.RBRACE());
+        System.err.println("[Listener] exitBlock --> " + ctx.getText());
+//        System.out.println("[Listener] Block -> " + ctx.LBRACE());
+//        System.out.println("[Listener] Block -> " + ctx.RBRACE());
+        if(ctx.LBRACE().toString().contains("missing")){
+            System.err.println("Missing '{'");
+        }
         if(ctx.RBRACE().toString().contains("missing")){
             System.err.println("Missing '}'");
         }
