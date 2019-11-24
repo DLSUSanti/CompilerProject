@@ -3,7 +3,7 @@ essentiel{
     nombre y;
     nombre a = x;
 
-    analyse("Enter a number to multiply by 5: ", y);
+    analyse("Enter a number to multiply by 5: ", y));
     nombre z = a * y;
 
     si(y < 0){

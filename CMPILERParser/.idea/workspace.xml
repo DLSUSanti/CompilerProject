@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f15436fc-4831-4baf-9a89-944f7570cfcb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CMPILERParser/customListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CMPILERParser/customListener.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/customListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/customListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testcases/interpreter_test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testcases/interpreter_test.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +82,8 @@
       <workItem from="1574494484755" duration="380000" />
       <workItem from="1574496171953" duration="7547000" />
       <workItem from="1574522022502" duration="10266000" />
-      <workItem from="1574532576260" duration="1494000" />
+      <workItem from="1574532576260" duration="1583000" />
+      <workItem from="1574580095467" duration="10362000" />
     </task>
     <servers />
   </component>
