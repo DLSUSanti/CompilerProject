@@ -1,0 +1,31 @@
+essentiel{
+
+    nombre y[5];
+
+        y[3] = 2;
+
+        pour(nombre j = 0; j<5; j++){
+             nombre x = y[j];
+             imprimer(x);
+
+        };
+
+    nombre x;
+
+    analyse("Enter how many fibo values: ", x);
+
+    nombre first = 0;
+    nombre second = 0;
+    pour(nombre i=0; i<x; i++){
+        si(first == 0 && second == 0){
+            second = 1;
+            imprimer("1");
+        }
+        autre{
+            nombre sum = first + second;
+            first = second;
+            second = sum;
+            imprimer(sum);
+        };
+    };
+}
