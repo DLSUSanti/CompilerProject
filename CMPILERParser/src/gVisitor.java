@@ -28,11 +28,29 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction(gParser.FunctionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#functionparameters}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionparameters(gParser.FunctionparametersContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#functionblock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionblock(gParser.FunctionblockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCall(gParser.CallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#callparameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallparameter(gParser.CallparameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#returnstatement}.
 	 * @param ctx the parse tree

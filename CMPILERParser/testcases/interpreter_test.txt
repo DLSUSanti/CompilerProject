@@ -1,14 +1,15 @@
+fonction nombre fibo(nombre count){
+    nombre num;
+    si(count == 0 || count == 1){
+        num = count;
+    }
+    autre{
+        num = appel fibo(count - 1) + appel fibo(count - 2);
+    };
+    rappel num;
+}
+
 essentiel{
-
-    nombre y[5];
-
-        y[3] = 2;
-
-        pour(nombre j = 0; j<5; j++){
-             nombre x = y[j];
-             imprimer(x);
-
-        };
 
     nombre x;
 
@@ -25,7 +26,12 @@ essentiel{
             nombre sum = first + second;
             first = second;
             second = sum;
-            imprimer(sum);
+            imprimer("," + sum);
         };
     };
+    imprimer("nextline");
+
+    analyse("Recursive fibo: ", x);
+    nombre rec = appel fibo(x);
+    imprimer("The " + x + "th Fibonacci number is " + rec);
 }

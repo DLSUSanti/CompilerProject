@@ -1,5 +1,6 @@
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -7,16 +8,19 @@ import java.util.Scanner;
 public class customVisitor extends gBaseVisitor<Value>{
 
     private HashMap<String, Value> memory;
-    public Map<String, Function> functionMap;
+    public Map<String, Functions> functionMap;
+    public Value returnvalue;
 
     public customVisitor(){
         memory = new HashMap<>();
         functionMap = new HashMap<>();
+        returnvalue = null;
     }
 
-    public customVisitor(HashMap<String, Value> memory, Map<String, Function> functionMap){
+    public customVisitor(HashMap<String, Value> memory, Map<String, Functions> functionMap){
         this.memory = memory;
         this.functionMap = functionMap;
+        returnvalue = null;
     }
 
     public void storeMemory(HashMap<String, Value> memory){
@@ -27,16 +31,82 @@ public class customVisitor extends gBaseVisitor<Value>{
         return memory;
     }
 
+    public Value getReturnvalue() {
+        return returnvalue;
+    }
+
     @Override
     public Value visitFunction(gParser.FunctionContext ctx) {
-        System.out.println("Visited Function -> " + ctx.getText());
-        return super.visitFunction(ctx);
+        //System.out.println("Visited Function -> " + ctx.getText());
+        Functions func = new Functions(ctx.functionparameters(), ctx.functionblock(), ctx.op.getText());
+        Functions check = functionMap.get(ctx.identifier().getText());
+        if(check!=null){
+            functionMap.replace(ctx.identifier().getText(), func);
+            //System.out.println("Function Replaced");
+        }
+        else{
+            functionMap.put(ctx.identifier().getText(), func);
+            //System.out.println("Function Stored");
+        }
+
+
+        return null;
     }
 
     @Override
     public Value visitCall(gParser.CallContext ctx) {
-        System.out.println("Visited Call -> " + ctx.getText());
-        return super.visitCall(ctx);
+        //System.out.println("Visited Call -> " + ctx.getText());
+        Functions func = functionMap.get(ctx.identifier().getText());
+        if(func!=null){
+            //System.out.println("Function called");
+            Functions execfunc = new Functions(func.ctxParams, func.ctxBlock, func.returnType);
+            ArrayList<Value> parameters = new ArrayList<>();
+            int i=0;
+            //System.out.println("Storing values");
+            while(ctx.callparameter(i)!=null){
+                Value val;
+                if(ctx.callparameter(i).identifier()!=null){
+                    val = memory.get(ctx.callparameter(i).identifier().getText());
+                }
+                else{
+                    Double raw = visit(ctx.callparameter(i).opr()).asDouble();
+                    val = new Value(raw, "double");
+                }
+                parameters.add(val);
+                i++;
+            }
+            //System.out.println("executing");
+            execfunc.execute(parameters,functionMap);
+            returnvalue = execfunc.getReturnValue();
+            //System.out.println("finished");
+        }
+        else {
+            System.err.println("Function " + ctx.identifier().getText() + " does not exist");
+        }
+        return null;
+    }
+
+    @Override
+    public Value visitReturnstatement(gParser.ReturnstatementContext ctx) {
+        if(ctx.identifier()!=null){
+            if(memory.get(ctx.identifier().getText())!=null){
+                returnvalue = memory.get(ctx.identifier().getText());
+            }
+        }
+        else if(ctx.charliteral()!=null){
+            returnvalue = new Value(ctx.charliteral().getText(), "char");
+        }
+        else if(ctx.stringliteral()!=null){
+            returnvalue = new Value(ctx.stringliteral().getText(), "string");
+        }
+        else if(ctx.opr()!=null){
+            returnvalue = this.visit(ctx.opr());
+        }
+        else{
+            System.err.println("Error returning value");
+        }
+
+        return null;
     }
 
     //declarations (add call statements)
@@ -96,9 +166,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     }
                 }
             }
-            else if(ctx.call()!=null){
-                System.out.println("Assigning a call to int");
-            }
             else{
                 storevalue = new Value(0, "int");
                 memory.put(ctx.id.getText(), storevalue);
@@ -108,7 +175,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
         }
-        return super.visitIntdeclaration(ctx);
+        return null;
     }
 
     @Override
@@ -167,9 +234,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     }
                 }
             }
-            else if(ctx.call()!=null){
-                System.out.println("Assigning a call to float");
-            }
             else{
                 storevalue = new Value(0, "float");
                 memory.put(ctx.id.getText(), storevalue);
@@ -179,7 +243,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
         }
-        return super.visitFloatdeclaration(ctx);
+        return null;
     }
 
     @Override
@@ -214,7 +278,7 @@ public class customVisitor extends gBaseVisitor<Value>{
                         }
                     }
                     else{
-                        System.out.println("function called");
+                        System.out.println("Int array assignment error");
                     }
                 }
                 else{
@@ -228,7 +292,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.vararrname().identifier().getText() + " already exists");
         }
-        return super.visitIntarrdeclaration(ctx);
+        return null;
     }
 
     @Override
@@ -263,7 +327,7 @@ public class customVisitor extends gBaseVisitor<Value>{
                         }
                     }
                     else{
-                        System.out.println("function called");
+                        System.err.println("Float array assignment error");
                     }
                 }
                 else{
@@ -277,7 +341,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.vararrname().identifier().getText() + " already exists");
         }
-        return super.visitFloatarrdeclaration(ctx);
+        return null;
     }
 
     @Override
@@ -318,7 +382,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
         }
-        return super.visitChardeclaration(ctx);
+        return null;
     }
 
     @Override
@@ -359,7 +423,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
         }
-        return super.visitChararrdeclaration(ctx);
+        return null;
     }
 
     @Override
@@ -382,7 +446,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
         }
-        return super.visitBooleandeclaration(ctx);
+        return null;
     }
 
     //Math
@@ -481,8 +545,17 @@ public class customVisitor extends gBaseVisitor<Value>{
             return mathvalue;
         }
         else if(ctx.call() != null){
-            System.out.println("Equation contains call");
-            mathvalue = new Value(0, "double");
+            //System.out.println("Equation contains call");
+            this.visit(ctx.call());
+            if(returnvalue.datatype.equals("int")){
+                mathvalue = new Value(Double.valueOf(returnvalue.asInt()), "double");
+            }
+            else if(returnvalue.datatype.equals("float")){
+                mathvalue = new Value(Double.valueOf(returnvalue.asFloat()), "double");
+            }
+            else{
+                mathvalue = new Value(returnvalue.asDouble(), "double");
+            }
             return mathvalue;
         }
         else if(ctx.opr() != null){
@@ -536,7 +609,7 @@ public class customVisitor extends gBaseVisitor<Value>{
             }
         }
 
-        return super.visitOperation(ctx);
+        return null;
     }
 
     //Booleans
@@ -869,7 +942,7 @@ public class customVisitor extends gBaseVisitor<Value>{
                 //System.out.println("call");
             }
         }
-        return super.visitAssignment(ctx);
+        return null;
     }
 
     @Override
@@ -948,7 +1021,7 @@ public class customVisitor extends gBaseVisitor<Value>{
                 System.err.println("an array error occurred");
             }
         }
-        return super.visitArrayassignment(ctx);
+        return null;
     }
 
     //scan and print
@@ -990,7 +1063,7 @@ public class customVisitor extends gBaseVisitor<Value>{
             System.err.println("Cannot get user input for variable " + ctx.identifier().getText() + " (variable does not exist)");
         }
 
-        return super.visitScan(ctx);
+        return null;
     }
 
     @Override
@@ -998,8 +1071,13 @@ public class customVisitor extends gBaseVisitor<Value>{
         int i = 0;
         while(ctx.printblock().stringcontent(i)!=null){
             if(ctx.printblock().stringcontent(i).stringliteral()!=null){
-                String printstring = ctx.printblock().stringcontent(i).stringliteral().getText();
-                System.out.print(printstring.substring(1, printstring.length()-1));
+                if(ctx.printblock().stringcontent(i).stringliteral().getText().equals("\"nextline\"")){
+                   System.out.println();
+                }
+                else{
+                    String printstring = ctx.printblock().stringcontent(i).stringliteral().getText();
+                    System.out.print(printstring.substring(1, printstring.length()-1));
+                }
             }
             else{
                 String identifier = ctx.printblock().stringcontent(i).identifier().getText();
@@ -1031,8 +1109,8 @@ public class customVisitor extends gBaseVisitor<Value>{
             }
             i++;
         }
-        System.out.println();
+        //System.out.println();
         //System.out.println(i);
-        return super.visitPrint(ctx);
+        return null;
     }
 }

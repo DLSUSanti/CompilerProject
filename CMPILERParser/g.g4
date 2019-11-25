@@ -4,9 +4,12 @@ program: globaldelcaration* function* main function* EOF;
 
 //function declaration
 main: MAIN block;
-function: FUNCTION op=(INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? identifier LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE statement* (returnstatement)? RBRACE;
-call: CALL identifier LPARENTHESIS ((identifier|opr) (COMMA (identifier|opr))*)? RPARENTHESIS;
-returnstatement: RETURN (identifier|intliteral|floatliteral|charliteral|stringliteral|booleanexp|opr) SEMICOLON;
+function: FUNCTION op=(INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) identifier functionparameters functionblock;
+functionparameters: LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS;
+functionblock: LBRACE statement* (returnstatement)? RBRACE;
+call: CALL identifier LPARENTHESIS (callparameter (COMMA callparameter)*)? RPARENTHESIS;
+callparameter: identifier|opr;
+returnstatement: RETURN (identifier|charliteral|stringliteral|opr) SEMICOLON;
 
 //type declaration
 globaldelcaration: GLOBAL declaration SEMICOLON;
@@ -23,7 +26,7 @@ chardeclaration: CHARACTER id=identifier (EQUALS (charliteral|call|identifier))?
 chararrdeclaration: STRING id=identifier (EQUALS (stringliteral|call|identifier))?;
 
 //assignment expression
-assignment: (id=identifier EQUALS (charliteral | stringliteral| identifier(index)? | opr | booleanexp | call)) | arrayassignment;
+assignment: (id=identifier EQUALS (charliteral | stringliteral| opr | identifier(index)? | booleanexp | call)) | arrayassignment;
 arrayassignment: id=identifier index EQUALS (opr | identifier);
 index: LBRACKET (identifier | intliteral) RBRACKET;
 

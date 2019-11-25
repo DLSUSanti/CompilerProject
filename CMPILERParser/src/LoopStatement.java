@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class LoopStatement {
 
-    public LoopStatement(ParseTree ctx, Map<String, Value> memory, Map<String, Function> functionMap, customVisitor context){
+    public LoopStatement(ParseTree ctx, Map<String, Value> memory, Map<String, Functions> functionMap, customVisitor context){
         HashMap<String, Value> tempMemory = new HashMap<>();
         for(Map.Entry mapElement : memory.entrySet()){
 

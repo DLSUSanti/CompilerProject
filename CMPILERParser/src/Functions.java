@@ -1,21 +1,58 @@
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Functions {
 
-    private  ParseTree ctx;
-    private String returnType;
+    public  ParseTree ctxParams;
+    public ParseTree ctxBlock;
+    public String returnType;
+    public HashMap<String, Value> memory;
+    private Value returnvalue;
 
-    public Functions(ParseTree ctx, String returnType){
-        this.ctx = ctx;
+    public Functions(ParseTree ctxParams, ParseTree ctxBlock, String returnType){
+        this.ctxParams = ctxParams;
+        this.ctxBlock = ctxBlock;
         this.returnType = returnType;
-    }
+        returnvalue = null;
+        //System.out.println(ctxParams.getText().substring(1, ctxParams.getText().length()-1));
 
-    public Value visitFunction(){
         customVisitor visitor = new customVisitor();
-        return visitor.visit(ctx);
+        visitor.visit(this.ctxParams);
+        memory = visitor.getMemory();
     }
 
-    public String getReturnType() {
-        return returnType;
+    public void execute(ArrayList<Value> passedParameters, Map<String, Functions> functionsMap){
+        String data[] = ctxParams.getText().substring(1, ctxParams.getText().length()-1).split(",");
+        for(int i=0; i<data.length; i++){
+            String decTokens[] = data[i].split(" ");
+            String parameterID = decTokens[1];
+            //System.out.println(parameterID);
+
+            if(passedParameters.get(i).datatype.equals("double")){
+                Value val = passedParameters.get(i);
+                if(memory.get(parameterID).datatype.equals("int")){
+                    int newnum = passedParameters.get(i).asDouble().intValue();
+                    memory.replace(parameterID,new Value(newnum, "int"));
+                }
+                else{
+                    float newnum = passedParameters.get(i).asDouble().floatValue();
+                    memory.replace(parameterID,new Value(newnum, "float"));
+                }
+            }
+            else{
+                memory.replace(parameterID, passedParameters.get(i));
+            }
+        }
+
+        customVisitor visitor = new customVisitor(memory, functionsMap);
+        visitor.visit(ctxBlock);
+        returnvalue = visitor.getReturnvalue();
+    }
+
+    public Value getReturnValue(){
+        return returnvalue;
     }
 }

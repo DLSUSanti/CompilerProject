@@ -37,6 +37,26 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitFunction(gParser.FunctionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#functionparameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionparameters(gParser.FunctionparametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#functionparameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionparameters(gParser.FunctionparametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#functionblock}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionblock(gParser.FunctionblockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#functionblock}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionblock(gParser.FunctionblockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#call}.
 	 * @param ctx the parse tree
 	 */
@@ -46,6 +66,16 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCall(gParser.CallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#callparameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallparameter(gParser.CallparameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#callparameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallparameter(gParser.CallparameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#returnstatement}.
 	 * @param ctx the parse tree
