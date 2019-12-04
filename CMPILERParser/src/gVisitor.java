@@ -1,4 +1,4 @@
-// Generated from D:/GitHub/CompilerProject/CMPILERParser\g.g4 by ANTLR 4.7.2
+// Generated from C:/Users/Amec Go/Desktop/CompilerProjectNewFunctions/CompilerProjectUpdated/CmpilerParser\g.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -28,11 +28,35 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunction(gParser.FunctionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#functionvoidblock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionvoidblock(gParser.FunctionvoidblockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#functionreturnblock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionreturnblock(gParser.FunctionreturnblockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#functionparameters}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionparameters(gParser.FunctionparametersContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCall(gParser.CallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#callparameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallparameter(gParser.CallparameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#returnstatement}.
 	 * @param ctx the parse tree
@@ -94,6 +118,12 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFloatarrdeclaration(gParser.FloatarrdeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link gParser#arrval}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrval(gParser.ArrvalContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link gParser#chardeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -106,17 +136,23 @@ public interface gVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitChararrdeclaration(gParser.ChararrdeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link gParser#forcedintdec}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitForcedintdec(gParser.ForcedintdecContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link gParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAssignment(gParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#arrayassignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayassignment(gParser.ArrayassignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link gParser#index}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIndex(gParser.IndexContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link gParser#condition}.
 	 * @param ctx the parse tree

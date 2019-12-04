@@ -26,6 +26,14 @@ public class Value {
 
     public float asFloat() { return (float)value; }
 
+    public int[] asIntArray(){
+        return (int[])value;
+    }
+
+    public float[] asFloatArray(){
+        return (float[])value;
+    }
+
     public boolean isDouble(){
         return value instanceof Double;
     }

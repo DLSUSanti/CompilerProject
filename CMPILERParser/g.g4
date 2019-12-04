@@ -4,26 +4,32 @@ program: globaldelcaration* function* main function* EOF;
 
 //function declaration
 main: MAIN block;
-function: FUNCTION op=(INTEGER | FLOATING_POINT | CHARACTER | STRING | VOID) (LBRACKET RBRACKET)? identifier LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS LBRACE statement* (returnstatement)? RBRACE;
-call: CALL identifier LPARENTHESIS ((identifier|opr) (COMMA (identifier|opr))*)? RPARENTHESIS;
-returnstatement: RETURN (identifier|intliteral|floatliteral|charliteral|stringliteral|booleanexp|opr) SEMICOLON;
+function: FUNCTION ((op=(INTEGER | FLOATING_POINT | CHARACTER | STRING) identifier functionparameters functionreturnblock) | (op=VOID identifier functionparameters functionvoidblock));
+functionvoidblock: LBRACE statement* RBRACE;
+functionreturnblock: LBRACE statement* returnstatement RBRACE;
+functionparameters: LPARENTHESIS (declaration (COMMA declaration)*)? RPARENTHESIS;
+call: CALL identifier LPARENTHESIS (callparameter (COMMA callparameter)*)? RPARENTHESIS;
+callparameter: identifier|opr;
+returnstatement: RETURN (identifier|charliteral|stringliteral|opr) SEMICOLON;
 
 //type declaration
 globaldelcaration: GLOBAL declaration SEMICOLON;
 declaration: singledeclaration | arraydeclaration;
 singledeclaration: intdeclaration | floatdeclaration | chardeclaration | booleandeclaration;
 arraydeclaration: intarrdeclaration | floatarrdeclaration | chararrdeclaration;
-booleandeclaration: BOOLEAN id=identifier (EQUALS val=booleanexp);
-intdeclaration: INTEGER id=identifier (EQUALS (opr|call|identifier))?;
-intarrdeclaration: INTEGER vararrname (EQUALS LBRACE (opr|call|identifier)(COMMA (opr|call|identifier))* RBRACE)?;
-floatdeclaration: FLOATING_POINT id=identifier (EQUALS (opr|call|identifier))?;
-floatarrdeclaration: FLOATING_POINT vararrname (EQUALS LBRACE (opr|call|identifier) (COMMA (opr|call|identifier))* RBRACE)?;
+booleandeclaration: BOOLEAN id=identifier (EQUALS val=booleanexp)?;
+intdeclaration: INTEGER id=identifier (EQUALS (opr|call|identifier(index)?))?;
+intarrdeclaration: INTEGER vararrname (EQUALS LBRACE arrval(COMMA arrval)* RBRACE)?;
+floatdeclaration: FLOATING_POINT id=identifier (EQUALS (opr|call|identifier(index)?))?;
+floatarrdeclaration: FLOATING_POINT vararrname (EQUALS LBRACE arrval (COMMA arrval)* RBRACE)?;
+arrval: opr|call|identifier;
 chardeclaration: CHARACTER id=identifier (EQUALS (charliteral|call|identifier))?;
 chararrdeclaration: STRING id=identifier (EQUALS (stringliteral|call|identifier))?;
-forcedintdec: INTEGER id=identifier EQUALS (opr|call|identifier);
 
 //assignment expression
-assignment: id=identifier EQUALS (charliteral | stringliteral| identifier | opr | booleanexp | call);
+assignment: (id=identifier EQUALS (charliteral | stringliteral| opr | identifier(index)? | booleanexp | call)) | arrayassignment;
+arrayassignment: id=identifier index EQUALS (opr | identifier);
+index: LBRACKET (identifier | intliteral) RBRACKET;
 
 //conditional statements
 condition: ifstatement;
@@ -33,7 +39,7 @@ elsestatement: ELSE end=block;
 
 //looping statements
 loop: loopfor | loopwhile | loopdowhile;
-loopfor: FOR LPARENTHESIS (assignment | forcedintdec) SEMICOLON booleanexp SEMICOLON (operation|assignment) RPARENTHESIS block;
+loopfor: FOR LPARENTHESIS (assignment | intdeclaration) SEMICOLON booleanexp SEMICOLON (operation|assignment) RPARENTHESIS block;
 loopwhile: WHILE nestedcondition block;
 loopdowhile: DO block WHILE nestedcondition;
 

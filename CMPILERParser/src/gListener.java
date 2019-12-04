@@ -1,4 +1,4 @@
-// Generated from D:/GitHub/CompilerProject/CMPILERParser\g.g4 by ANTLR 4.7.2
+// Generated from C:/Users/Amec Go/Desktop/CompilerProjectNewFunctions/CompilerProjectUpdated/CmpilerParser\g.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -37,6 +37,36 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitFunction(gParser.FunctionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#functionvoidblock}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionvoidblock(gParser.FunctionvoidblockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#functionvoidblock}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionvoidblock(gParser.FunctionvoidblockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#functionreturnblock}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionreturnblock(gParser.FunctionreturnblockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#functionreturnblock}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionreturnblock(gParser.FunctionreturnblockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#functionparameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionparameters(gParser.FunctionparametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#functionparameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionparameters(gParser.FunctionparametersContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#call}.
 	 * @param ctx the parse tree
 	 */
@@ -46,6 +76,16 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCall(gParser.CallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#callparameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallparameter(gParser.CallparameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#callparameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallparameter(gParser.CallparameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#returnstatement}.
 	 * @param ctx the parse tree
@@ -147,6 +187,16 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitFloatarrdeclaration(gParser.FloatarrdeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link gParser#arrval}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrval(gParser.ArrvalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#arrval}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrval(gParser.ArrvalContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link gParser#chardeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -167,16 +217,6 @@ public interface gListener extends ParseTreeListener {
 	 */
 	void exitChararrdeclaration(gParser.ChararrdeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link gParser#forcedintdec}.
-	 * @param ctx the parse tree
-	 */
-	void enterForcedintdec(gParser.ForcedintdecContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link gParser#forcedintdec}.
-	 * @param ctx the parse tree
-	 */
-	void exitForcedintdec(gParser.ForcedintdecContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link gParser#assignment}.
 	 * @param ctx the parse tree
 	 */
@@ -186,6 +226,26 @@ public interface gListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignment(gParser.AssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#arrayassignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayassignment(gParser.ArrayassignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#arrayassignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayassignment(gParser.ArrayassignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link gParser#index}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndex(gParser.IndexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link gParser#index}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndex(gParser.IndexContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link gParser#condition}.
 	 * @param ctx the parse tree

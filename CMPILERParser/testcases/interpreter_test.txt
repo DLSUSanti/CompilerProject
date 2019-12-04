@@ -1,20 +1,38 @@
-essentiel{
-    nombre x = 5;
-    nombre y;
-    nombre a = x;
-
-    analyse("Enter a number to multiply by 5: ", y));
-    nombre z = a * y;
-
-    si(y < 0){
-        imprimer("Input: negative");
-    }
-    autre si(y > 0){
-        imprimer("Input: positive");
+fonction nombre fibo(nombre count){
+    nombre num;
+    si(count == 0 || count == 1){
+        num = count;
     }
     autre{
-        imprimer("Input: 0");
+        num = appel fibo(count - 1) + appel fibo(count - 2);
     };
+    rappel num;
+}
 
-    imprimer("Answer: " + z);
+essentiel{
+
+    nombre x;
+
+    analyse("Enter how many fibo values: ", x);
+
+    nombre first = 0;
+    nombre second = 0;
+    pour(nombre i=0; i<x; i++){
+        si(first == 0 && second == 0){
+            second = 1;
+            imprimer("1");
+        }
+        autre{
+            nombre sum = first + second;
+            first = second;
+            second = sum;
+            imprimer(", " + sum);
+        };
+    };
+    imprimer("nextline");
+
+    analyse("Recursive fibo: ", x);
+    nombre rec;
+    rec = appel fibo(x);
+    imprimer("The " + x + "th Fibonacci number is " + rec);
 }
