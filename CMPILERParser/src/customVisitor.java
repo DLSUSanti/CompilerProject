@@ -960,11 +960,23 @@ public class customVisitor extends gBaseVisitor<Value>{
         System.out.println("Loop | DoWhile: " + ctx.loopdowhile());
         System.out.println("Loop | For: " + ctx.loopfor());
         if(ctx.loopwhile()!=null){
+            if(ctx.loopwhile().nestedcondition().LPARENTHESIS().getText().contains("missing") || ctx.loopwhile().nestedcondition().RPARENTHESIS().getText().contains("missing")
+                || ctx.loopwhile().nestedcondition().RPARENTHESIS() == null || ctx.loopwhile().nestedcondition().RPARENTHESIS() == null ) {
+               frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + " : Cannot find parenthesis \n");
+               noBugsFound = false;
+            }
 
+            System.out.println("LoopWhile | block: " + ctx.loopwhile().block());
             //while
             //System.out.println("while loop");
-            while(this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean()){
-                new LoopStatement(ctx.loopwhile().block(), memory, functionMap, customVisitor.this, frame);
+            System.out.println("LoopWhile | booleanExp: " + this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean());
+            if(!this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean()) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + " : No expression found \n");
+                noBugsFound = false;
+            } else {
+                while (this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean()) {
+                    new LoopStatement(ctx.loopwhile().block(), memory, functionMap, customVisitor.this, frame);
+                }
             }
             return null;
         }
@@ -976,9 +988,9 @@ public class customVisitor extends gBaseVisitor<Value>{
         }
         else if(ctx.loopfor()!=null){
             // ERROR CHECKING
-            System.out.println("LoopFor | For: " + ctx.loopfor().FOR());
-            System.out.println("LoopFor | LPARE: " +ctx.loopfor().LPARENTHESIS());
-            System.out.println("LoopFor | RPARE: " +ctx.loopfor().RPARENTHESIS());
+            System.out.println("LoopFor | For: " + ctx.loopfor().getText());
+//            System.out.println("LoopFor | LPARE: " +ctx.loopfor().LPARENTHESIS());
+//            System.out.println("LoopFor | RPARE: " +ctx.loopfor().RPARENTHESIS());
             if(ctx.loopfor().RPARENTHESIS() == null || ctx.loopfor().RPARENTHESIS().getText().contains("missing") || ctx.loopfor().LPARENTHESIS().getText().contains("missing")){
                 frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : Cannot find parenthesis \n");
                 noBugsFound = false;
@@ -989,19 +1001,34 @@ public class customVisitor extends gBaseVisitor<Value>{
                 noBugsFound = false;
             }
 
-            //for loop
-            //declaration
-            if(ctx.loopfor().intdeclaration()!=null){
-                this.visit(ctx.loopfor().intdeclaration());
+            System.out.println("LoopFor | IntDeclaration: " + ctx.loopfor().intdeclaration());
+            System.out.println("LoopFor | Assignment: " + ctx.loopfor().assignment());
+            if(ctx.loopfor().intdeclaration() == null && ctx.loopfor().assignment(0).isEmpty()){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": Cannot find declaration/ assignment operator");
+            } else {
+                //for loop
+                //declaration
+                if (ctx.loopfor().intdeclaration() != null) {
+                    this.visit(ctx.loopfor().intdeclaration());
+                } else {
+                    this.visit(ctx.loopfor().assignment(0));
+                }
             }
-            else{
-                this.visit(ctx.loopfor().assignment(0));
-            }
-            //increment
-            while(this.visit(ctx.loopfor().booleanexp()).asBoolean()){
-                new LoopStatement(ctx.loopfor().block(), memory, functionMap, customVisitor.this, frame);
-                if(ctx.loopfor().operation()!=null){
-                    this.visit(ctx.loopfor().operation());
+
+//            System.out.println("LoopWhile | booleanExp: " + this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean());
+            if(!this.visit(ctx.loopfor().booleanexp()).asBoolean()) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : No expression found \n");
+                noBugsFound = false;
+            } else if (ctx.loopfor().operation() == null) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : Cannot find assignment statement \n");
+                noBugsFound = false;
+            } else {
+                //increment
+                while (this.visit(ctx.loopfor().booleanexp()).asBoolean() ) {
+                    new LoopStatement(ctx.loopfor().block(), memory, functionMap, customVisitor.this, frame);
+                    if (ctx.loopfor().operation() != null) {
+                        this.visit(ctx.loopfor().operation());
+                    }
                 }
             }
         }
@@ -1248,7 +1275,7 @@ public class customVisitor extends gBaseVisitor<Value>{
     //scan and print
     @Override
     public Value visitScan(gParser.ScanContext ctx) {
-//        if(noBugsFound) {
+
             Value checkvalue = memory.get(ctx.identifier().getText());
 
             if (checkvalue != null) {
@@ -1571,6 +1598,12 @@ public class customVisitor extends gBaseVisitor<Value>{
             frame.getjTextPaneDebug().append("Missing brace \n");
             noBugsFound = false;
         }
+        System.out.println("Block | statement: " +ctx.statement());
+        if(ctx.statement().isEmpty()) {
+            System.out.println("Empty Statement");
+            frame.getjTextPaneDebug().append("Empty Statement \n");
+            noBugsFound = false;
+        }
         return visitChildren(ctx);
     }
 
@@ -1579,52 +1612,60 @@ public class customVisitor extends gBaseVisitor<Value>{
         System.out.println("Statement: " + ctx.getText());
 //        System.out.println("Statement | Declaration: " + ctx.declaration());
         if (ctx.declaration() != null) {
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.declaration().getText())) {
                 System.out.println("SPLIT{0}: " + split[0]);
                 System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.declaration().getText() + "'\n");
+                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.declaration().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
 //        System.out.println("Statement | Assignment: " + ctx.assignment());
         if(ctx.assignment() != null) {
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.assignment().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.assignment().getText() + "'\n");
+                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.assignment().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
 //        System.out.println("Statement | Condition: " + ctx.condition());
         if(ctx.condition() != null) {
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.condition().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.condition().getText() + "'\n");
+                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.condition().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
 //        System.out.println("Statement | Loop: " + ctx.loop());
-        // TODO: MMOVE TO VISITLOOP DO NOT DO IT HERE
-//        if(ctx.loop() != null) {
-//            String split[] = ctx.getText().split(";");
-//            if (!split[0].equals(ctx.loop().getText())) {
-//                System.out.println("SPLIT{0}: " + split[0]);
-//                System.out.println(" CTX: " + ctx.loop().getText());
-//                frame.getjTextPaneDebug().append("Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.loop().getText() + "'\n");
-//                noBugsFound = false;
-//            }
-//        }
+        if(ctx.loop() != null) {
+            if(ctx.getText().contains("missing")) {
+                String split[] = ctx.getText().split("<missing");
+                if (!split[0].substring(0, split[0].length()).equals(ctx.loop().getText())) {
+                    System.out.println("Statement: " + split[0].substring(0, split[0].length()));
+                    System.out.println(" Loop: " + ctx.loop().getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the syntax '" + split[0] + "'\n    Suggested: '" + ctx.loop().getText() + ";'\n");
+                    noBugsFound = false;
+                }
+            } else {
+                if (!ctx.getText().substring(0, ctx.getText().length() - 1).equals(ctx.loop().getText())) {
+                    System.out.println("Statement: " + ctx.getText().substring(0, ctx.getText().length() - 1));
+                    System.out.println(" Loop: " + ctx.loop().getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText().substring(0, ctx.getText().length() - 1) + "'\n    Suggested: '" + ctx.loop().getText() + ";'\n");
+                    noBugsFound = false;
+                }
+            }
+        }
 //        System.out.println("Statement | Operation: " + ctx.operation());
         if(ctx.operation() != null) {
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.operation().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.operation().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.operation().getText() + "'\n");
+                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.operation().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
@@ -1642,21 +1683,21 @@ public class customVisitor extends gBaseVisitor<Value>{
                 frame.getjTextPaneDebug().append("In Line " + ctx.call().CALL().getSymbol().getLine() + ": Missing Parenthesis");
                 noBugsFound = false;
             }
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.call().getText())) {
                 System.out.println("SPLIT{0}: " + split[0]);
                 System.out.println(" CTX: " + ctx.call().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.call().getText() + "'\n");
+                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.call().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
 //        System.out.println("Statement | Print: " + ctx.print());
         if(ctx.print() != null) {
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.print().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("In line " + ctx.print().PRINT().getSymbol().getLine() + ": Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.print().getText() + "'\n");
+                frame.getjTextPaneDebug().append("In line " + ctx.print().PRINT().getSymbol().getLine() + ": Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.print().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
@@ -1670,11 +1711,11 @@ public class customVisitor extends gBaseVisitor<Value>{
                 frame.getjTextPaneDebug().append("In Line " + ctx.scan().SCAN().getSymbol().getLine() + " : Cannot find comma \n");
                 noBugsFound = false;
             }
-            String split[] = ctx.getText().split(";");
+            String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.scan().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("In line " + ctx.scan().SCAN().getSymbol().getLine() + ": Cannot identify the function '" + ctx.getText() + "'\n    Suggested: '" + ctx.scan().getText() + "'\n");
+                frame.getjTextPaneDebug().append("In line " + ctx.scan().SCAN().getSymbol().getLine() + ": Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.scan().getText() + ";'\n");
                 noBugsFound = false;
             }
         }
@@ -1682,7 +1723,7 @@ public class customVisitor extends gBaseVisitor<Value>{
         try {
             System.out.println("Statement | SEMICOLON: " + ctx.SEMICOLON());
             if (ctx.SEMICOLON().getText().contains("missing")) {
-                String split[] = ctx.getText().split("<");
+                String split[] = ctx.getText().split("<missing");
                 frame.getjTextPaneDebug().append("Missing semicolon in '" + split[0] + "'\n");
                 noBugsFound = false;
             }
