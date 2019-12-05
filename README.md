@@ -4,13 +4,13 @@ Parser/ErrorChecking branch of the CompilerProject
 
 ## Checklist
 - [x] Error Handler: If statements
-    - Cannot handle if x==letters
+    - Cannot handle if x==/*VARIABLE*/
     - Stopped it from printing if its syntax error
 - [x] Error Handler: visitStatement Function
     - In function VisitStatement compared it to check if all tokens passed is really included
     - Error checked semicolon in VisitStatement
 - [x] Error Handler: Loop
-    - Cannot handle if x==<VARIABLE>
+    - Cannot handle if x==/*VARIABLE*/
     - In while loop, doesn't print when there is error
 - [x] Error Handler: Call 
     - Cannot stop it from going inside the Functions Func
