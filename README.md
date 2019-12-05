@@ -4,7 +4,7 @@ Parser/ErrorChecking branch of the CompilerProject
 
 ## Checklist
 - [x] Error Handler: If statements
-    - Cannot handle if x==<VARIABLE>
+    - Cannot handle if x==letters
     - Stopped it from printing if its syntax error
 - [x] Error Handler: visitStatement Function
     - In function VisitStatement compared it to check if all tokens passed is really included
