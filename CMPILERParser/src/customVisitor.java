@@ -1,5 +1,3 @@
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +8,6 @@ public class customVisitor extends gBaseVisitor<Value>{
     public Map<String, Functions> functionMap;
     public Value returnvalue;
     private mainInterface frame;
-    // its not working as its supposed to work
-    private boolean noBugsFound = true;
 
     public customVisitor(mainInterface frame){
         this.frame = frame;
@@ -41,63 +37,112 @@ public class customVisitor extends gBaseVisitor<Value>{
 
     @Override
     public Value visitFunction(gParser.FunctionContext ctx) {
+        boolean noErrorInFunction = true;
         System.out.println("Visited Function -> " + ctx.getText());
         Functions func = null;
         if(ctx.functionreturnblock()!=null){
-            // ERROR MESSAGE
-            System.out.println("Function | op: " + ctx.op.getText());
-            System.out.println("Function | identifier: " + ctx.identifier().IDENTIFIER());
-//            System.err.println("Function | functionparameters: " + ctx.functionparameters().RPARENTHESIS());
-            System.out.println("Function | functionreturnblock: " + ctx.functionreturnblock());
+            // ERROR MESSAGE - Using my instincts here not sure YET until tried with a function :)
+            if (ctx.op.getText() == null) {
+                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find variable \n");
+                noErrorInFunction = false;
+            }
+            try {
+                if (ctx.identifier().IDENTIFIER().getText().contains("missing")) {
+                    frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find function name \n");
+                    noErrorInFunction = false;
+                }
+            } catch (NullPointerException e){}
 
-//            System.out.println("Function | functionreturnblock | statement: " + ctx.functionreturnblock().statement());
-//            System.out.println("Function | functionreturnblock | returnstatement: " + ctx.functionreturnblock().returnstatement());
-//            System.out.println("Function | functionreturnblock | LBRACE: " + ctx.functionreturnblock().LBRACE());
-//            System.out.println("Function | functionreturnblock | RBRACE: " + ctx.functionreturnblock().RBRACE());
+            if(ctx.functionparameters().RPARENTHESIS() == null || ctx.functionparameters().LPARENTHESIS() == null) {
+                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInFunction = false;
+            }
+            if(ctx.functionparameters().RPARENTHESIS().getText().contains("missing") || ctx.functionparameters().LPARENTHESIS().getText().contains("missing")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInFunction = false;
+            }
+            if(!ctx.functionparameters().declaration().isEmpty()) {
+                String splitFunction[] = ctx.getText().split("\\(|\\)");
+                System.err.println("Split: " + splitFunction[1]);
+                if (splitFunction[1].substring(splitFunction[1].length() - 1).equals(",")) {
+                    frame.getjTextPaneDebug().append("In Line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find missing parameter \n");
+                    noErrorInFunction = false;
+                }
+            }
 
-            if(ctx.functionreturnblock().LBRACE().getText().contains("missing")) {
+            if (ctx.functionreturnblock().LBRACE().getText().contains("missing")) {
                 frame.getjTextPaneDebug().append("In line " + ctx.functionreturnblock().LBRACE().getSymbol().getLine() + ": Cannot find bracket left bracket \n");
-                noBugsFound = false;
+                noErrorInFunction = false;
             }
-            if(ctx.functionreturnblock().RBRACE().getText().contains("missing")) {
+            if (ctx.functionreturnblock().RBRACE().getText().contains("missing")) {
                 frame.getjTextPaneDebug().append("In line " + ctx.functionreturnblock().RBRACE().getSymbol().getLine() + ": Cannot find bracket right bracket \n");
-                noBugsFound = false;
+                noErrorInFunction = false;
             }
 
-            if(noBugsFound)
+            if(ctx.functionreturnblock().statement().isEmpty()) {
+                frame.getjTextPaneDebug().append("In line " + ctx.functionreturnblock().RBRACE().getSymbol().getLine() + ": Empty Statement \n");
+                noErrorInFunction = false;
+            }
+
+            if(ctx.functionreturnblock().returnstatement().opr() == null && ctx.functionreturnblock().returnstatement().identifier() == null
+                && ctx.functionreturnblock().returnstatement().stringliteral() == null && ctx.functionreturnblock().returnstatement().charliteral() == null) {
+                frame.getjTextPaneDebug().append("Empty return statement\n");
+                noErrorInFunction = false;
+            }
+
+//            if(noErrorInFunction)
                 func = new Functions(ctx.functionparameters(), ctx.functionreturnblock(), ctx.op.getText(), frame);
         }
         else {
             // ERRORMESSAGE
-//            System.out.println("Function | VOID: " + ctx.VOID());
             if (ctx.VOID() == null) {
-                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Missing variable \n");
-                noBugsFound = false;
+                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find variable \n");
+                noErrorInFunction = false;
             }
-//            System.out.println("Function | identifier: " + ctx.identifier().IDENTIFIER());
-            if (ctx.identifier().IDENTIFIER().getText().contains("missing")) {
-                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ":Missing identifier \n");
-                noBugsFound = false;
+            try {
+                if (ctx.identifier().IDENTIFIER().getText().contains("missing")) {
+                    frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find function name \n");
+                    noErrorInFunction = false;
+                }
+            } catch (NullPointerException e){}
+
+            if(ctx.functionparameters().RPARENTHESIS() == null || ctx.functionparameters().LPARENTHESIS() == null) {
+                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInFunction = false;
             }
-//            System.out.println("Function | functionparameters: " + ctx.functionparameters());
-//            System.out.println("Function | functionvoidblock: " + ctx.functionvoidblock());
-//            System.out.println("Function | functionvoidblock LBRACE: " + ctx.functionvoidblock().LBRACE());
-//            System.out.println("Function | functionvoidblock RBRACE: " + ctx.functionvoidblock().RBRACE());
+            if(ctx.functionparameters().RPARENTHESIS().getText().contains("missing") || ctx.functionparameters().LPARENTHESIS().getText().contains("missing")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInFunction = false;
+            }
+
+            if(!ctx.functionparameters().declaration().isEmpty()) {
+                String splitFunction[] = ctx.getText().split("\\(|\\)");
+                System.err.println("Split: " + splitFunction[1]);
+                if (splitFunction[1].substring(splitFunction[1].length() - 1).equals(",")) {
+                    frame.getjTextPaneDebug().append("In Line " + ctx.FUNCTION().getSymbol().getLine() + ": Cannot find missing parameter \n");
+                    noErrorInFunction = false;
+                }
+            }
 
             if (ctx.functionvoidblock().LBRACE().getText().contains("missing")) {
                 frame.getjTextPaneDebug().append("In line " + ctx.functionvoidblock().LBRACE().getSymbol().getLine() + ": Cannot find bracket left bracket \n");
-                noBugsFound = false;
+                noErrorInFunction = false;
             }
             if (ctx.functionvoidblock().RBRACE().getText().contains("missing")) {
                 frame.getjTextPaneDebug().append("In line " + ctx.functionvoidblock().RBRACE().getSymbol().getLine() + ": Cannot find bracket right bracket \n");
-                noBugsFound = false;
+                noErrorInFunction = false;
             }
-            if (noBugsFound) {
+
+            if(ctx.functionvoidblock().statement().isEmpty()){
+                frame.getjTextPaneDebug().append("In line " + ctx.functionvoidblock().RBRACE().getSymbol().getLine() + ": Empty Statement \n");
+                noErrorInFunction = false;
+            }
+            if (noErrorInFunction) {
                 if (ctx.VOID() != null || ctx.functionparameters() != null)
                     func = new Functions(ctx.functionparameters(), ctx.functionvoidblock(), ctx.op.getText(), frame);
             }
         }
-        if(noBugsFound) {
+        if(noErrorInFunction) {
             Functions check = functionMap.get(ctx.identifier().getText());
             if (check != null) {
                 functionMap.replace(ctx.identifier().getText(), func);
@@ -112,96 +157,121 @@ public class customVisitor extends gBaseVisitor<Value>{
 
     @Override
     public Value visitCall(gParser.CallContext ctx) {
-        System.out.println("Visited Call -> " + ctx.getText());
-
-        Functions func = functionMap.get(ctx.identifier().getText());
-        if (func != null) {
-            //System.out.println("Function called");
-            Functions execfunc = new Functions(func.ctxParams, func.ctxBlock, func.returnType, frame);
-            ArrayList<Value> parameters = new ArrayList<>();
-            int i = 0;
-            //System.out.println("Storing values");
-            while (ctx.callparameter(i) != null) {
-                Value val;
-                if (ctx.callparameter(i).identifier() != null) {
-                    val = memory.get(ctx.callparameter(i).identifier().getText());
-                } else {
-                    Double raw = visit(ctx.callparameter(i).opr()).asDouble();
-                    val = new Value(raw, "double");
-                }
-                parameters.add(val);
-                i++;
-            }
-            //System.out.println("executing");
-            execfunc.execute(parameters, functionMap);
-            returnvalue = execfunc.getReturnValue();
-            //System.out.println("finished");
-        } else {
+        boolean noErrorInCall = true;
+//        System.out.println("Visited Call -> " + ctx.getText());
+//        System.out.println("Call | identifier: " + ctx.identifier().IDENTIFIER());
+        if(ctx.identifier().IDENTIFIER().getText().contains("missing")){
             frame.getjTextPaneDebug().append("In line " + ctx.CALL().getSymbol().getLine() + ": Function does not exist \n");
             System.err.println("In line " + ctx.CALL().getSymbol().getLine() + ": Function does not exist");
-            noBugsFound = false;
+            noErrorInCall = false;
         }
+//        System.out.println("Call | declaration: " + ctx.callparameter());
+//        System.out.println("Call | COMMA: " + ctx.COMMA());
+        if(!ctx.callparameter().isEmpty()) {
+            String splitCall[] = ctx.getText().split("\\(|\\)");
+            System.err.println("Split: " + splitCall[1]);
+            if (splitCall[1].substring(splitCall[1].length() - 1).equals(",")) {
+                frame.getjTextPaneDebug().append("In Line " + ctx.CALL().getSymbol().getLine() + ": Cannot find missing parameter \n");
+                noErrorInCall = false;
+            }
+        }
+
+        if(ctx.RPARENTHESIS() == null || ctx.LPARENTHESIS() == null) {
+            frame.getjTextPaneDebug().append("In line " + ctx.CALL().getSymbol().getLine() + ": Missing Parenthesis");
+            noErrorInCall = false;
+        }
+        if(ctx.LPARENTHESIS().getText().contains("missing") || ctx.RPARENTHESIS().getText().contains("missing")) {
+            frame.getjTextPaneDebug().append("In line " + ctx.CALL().getSymbol().getLine() + ": Missing Parenthesis");
+            noErrorInCall = false;
+        }
+
+        if(noErrorInCall) {
+            Functions func = functionMap.get(ctx.identifier().getText());
+            if (func != null) {
+                //System.out.println("Function called");
+                Functions execfunc = new Functions(func.ctxParams, func.ctxBlock, func.returnType, frame);
+                ArrayList<Value> parameters = new ArrayList<>();
+                int i = 0;
+                //System.out.println("Storing values");
+                while (ctx.callparameter(i) != null) {
+                    Value val;
+                    if (ctx.callparameter(i).identifier() != null) {
+                        val = memory.get(ctx.callparameter(i).identifier().getText());
+                    } else {
+                        Double raw = visit(ctx.callparameter(i).opr()).asDouble();
+                        val = new Value(raw, "double");
+                    }
+                    parameters.add(val);
+                    i++;
+                }
+                // === Cant get called to "Fonction vide <FUNCTION NAME>(/*insert error*/ i)" === says arrayIndexOutOfBound when
+                // theres error in the syntax of the supposed to be called function (message me kung di mo gets sinasabi ko hahah)
+                // - Michiko
+
+                //System.out.println("executing");
+                execfunc.execute(parameters, functionMap);
+                returnvalue = execfunc.getReturnValue();
+                //System.out.println("finished");
+            }
+         }
         return null;
     }
 
     @Override
     public Value visitReturnstatement(gParser.ReturnstatementContext ctx) {
-        System.out.println("Return Statement: " + ctx.getText());
+        System.out.println("|| Return Statement: " + ctx.getText());
+        boolean noErrorInReturn = true;
         if(ctx.SEMICOLON()==null) {
             frame.getjTextPaneDebug().append("In line " + ctx.RETURN().getSymbol().getLine() + ": Cannot find semicolon \n");
-            noBugsFound = false;
+            noErrorInReturn = false;
         }
 
         if(ctx.identifier()!=null){
             System.out.println("Return Statement | identifier: " + ctx.identifier().getText());
             String split[] = ctx.getText().split(";|\\s+");
             if(!split[1].equals(ctx.identifier().getText())){
-//                System.out.println("SPLIT{1}: " + split[1]);
-//                System.out.println("CTX: " + ctx.identifier().getText());
                 frame.getjTextPaneDebug().append("In line " + ctx.RETURN().getSymbol().getLine() + ": Cannot find identifier \n");
-                noBugsFound = false;
+                noErrorInReturn = false;
             }
-            if(memory.get(ctx.identifier().getText())!=null){
-                returnvalue = memory.get(ctx.identifier().getText());
+            if(noErrorInReturn) {
+                if (memory.get(ctx.identifier().getText()) != null) {
+                    returnvalue = memory.get(ctx.identifier().getText());
+                }
             }
         }
         else if(ctx.charliteral()!=null){
             System.out.println("Return Statement | charliteral: " + ctx.charliteral().getText());
             String split[] = ctx.getText().split(";|\\s+");
             if(!split[1].equals(ctx.charliteral().getText())){
-//                System.out.println("SPLIT{1}: " + split[1]);
-//                System.out.println(" CTX: " + ctx.declaration().getText());
                 frame.getjTextPaneDebug().append("In line " + ctx.RETURN().getSymbol().getLine() + ": Cannot find char \n");
-                noBugsFound = false;
+                noErrorInReturn = false;
             }
-            returnvalue = new Value(ctx.charliteral().getText(), "char");
+            if(noErrorInReturn)
+                returnvalue = new Value(ctx.charliteral().getText(), "char");
         }
         else if(ctx.stringliteral()!=null){
             System.out.println("Return Statement | stringliteral: " + ctx.stringliteral().getText());
             String split[] = ctx.getText().split(";|\\s+");
             if(!split[1].equals(ctx.stringliteral().getText())){
-//                System.out.println("SPLIT{1}: " + split[1]);
-//                System.out.println(" CTX: " + ctx.declaration().getText());
                 frame.getjTextPaneDebug().append("In line " + ctx.RETURN().getSymbol().getLine() + ": Cannot find string \n");
-                noBugsFound = false;
+                noErrorInReturn = false;
             }
-            returnvalue = new Value(ctx.stringliteral().getText(), "string");
+            if(noErrorInReturn)
+                returnvalue = new Value(ctx.stringliteral().getText(), "string");
         }
         else if(ctx.opr()!=null){
             System.out.println("Return Statement | opr: " + ctx.opr().getText());
-            String split[] = ctx.getText().split(";|\\s+");
+            String split[] = ctx.getText().split(";|\\s+|()");
             if(!split[1].equals(ctx.opr().getText())){
-//                System.out.println("SPLIT{1}: " + split[1]);
-//                System.out.println("CTX: " + ctx.opr().getText());
                 frame.getjTextPaneDebug().append("In line " + ctx.RETURN().getSymbol().getLine() + ": Cannot find operation\n    Suggested: " + ctx.opr().getText() +"\n");
-                noBugsFound = false;
+                noErrorInReturn = false;
             }
-            returnvalue = this.visit(ctx.opr());
+            if(noErrorInReturn)
+                returnvalue = this.visit(ctx.opr());
         }
         else{
             System.err.println("Error returning value");
-            frame.getjTextPaneDebug().append("Error returning value \n");
-            noBugsFound = false;
+            frame.getjTextPaneDebug().append("In line " + ctx.RETURN().getSymbol().getLine() + ": Cannot find returning value \n");
         }
         return null;
     }
@@ -230,7 +300,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     if(check2 == null){
                         System.err.println("Variable " + ctx.identifier(1).getText() + " has not been declared");
                         frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                        noBugsFound = false;
                     }
                     else {
                         if(check2.datatype.equals(checkvalue.datatype)){
@@ -239,7 +308,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         else {
                             System.err.println("Mismatching data types");
                             frame.getjTextPaneDebug().append("Mismatching data types \n");
-                            noBugsFound = false;
                         }
                     }
                 }
@@ -248,7 +316,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     if(check2 == null){
                         System.err.println("Variable " + ctx.identifier(1).getText() + " has not been declared");
                         frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                        noBugsFound = false;
                     }
                     else {
                         int index;
@@ -269,7 +336,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         else {
                             System.err.println("Mismatching data types");
                             frame.getjTextPaneDebug().append("Mismatching data types \n");
-                            noBugsFound = false;
                         }
                     }
                 }
@@ -283,7 +349,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -308,7 +373,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     if(check2 == null){
                         System.err.println("Variable " + ctx.identifier(1).getText() + " has not been declared");
                         frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                        noBugsFound = false;
                     }
                     else {
                         if(check2.datatype.equals(checkvalue.datatype)){
@@ -317,7 +381,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         else {
                             System.err.println("Mismatching data types");
                             frame.getjTextPaneDebug().append("Mismatching data types \n");
-                            noBugsFound = false;
                         }
                     }
                 }
@@ -326,7 +389,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     if(check2 == null){
                         System.err.println("Variable " + ctx.identifier(1).getText() + " has not been declared");
                         frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                        noBugsFound = false;
                     }
                     else {
                         int index;
@@ -347,7 +409,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         else {
                             System.err.println("Mismatching data types");
                             frame.getjTextPaneDebug().append("Mismatching data types \n");
-                            noBugsFound = false;
                         }
                     }
                 }
@@ -361,7 +422,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable " + ctx.id.getText() + " already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -388,7 +448,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         if(check2 == null){
                             System.err.println("Variable '" + ctx.arrval(i).identifier().getText() + "' has not been declared");
                             frame.getjTextPaneDebug().append("Variable '" + ctx.arrval(i).identifier().getText() + "' has not been declared \n");
-                            noBugsFound = false;
                         }
                         else {
                             if(check2.datatype.equals("int")){
@@ -397,14 +456,12 @@ public class customVisitor extends gBaseVisitor<Value>{
                             else {
                                 System.err.println("Mismatching data types");
                                 frame.getjTextPaneDebug().append("Mismatching data types \n");
-                                noBugsFound = false;
                             }
                         }
                     }
                     else{
                         System.out.println("Int array assignment error");
                         frame.getjTextPaneDebug().append("Int array assignment error \n");
-                        noBugsFound = false;
                     }
                 }
                 else{
@@ -418,7 +475,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable '" + ctx.vararrname().identifier().getText() + "' already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.vararrname().identifier().getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -445,7 +501,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         if(check2 == null){
                             System.err.println("Variable '" + ctx.arrval(i).identifier().getText() + "' has not been declared");
                             frame.getjTextPaneDebug().append("Variable '" + ctx.arrval(i).identifier().getText() + "' has not been declared\n");
-                            noBugsFound = false;
                         }
                         else {
                             if(check2.datatype.equals("float")){
@@ -454,14 +509,12 @@ public class customVisitor extends gBaseVisitor<Value>{
                             else {
                                 System.err.println("Mismatching data types");
                                 frame.getjTextPaneDebug().append("Mismatching data types\n");
-                                noBugsFound = false;
                             }
                         }
                     }
                     else{
                         System.err.println("Float array assignment error");
                         frame.getjTextPaneDebug().append("Float array assignment error \n");
-                        noBugsFound = false;
                     }
                 }
                 else{
@@ -475,7 +528,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable '" + ctx.vararrname().identifier().getText() + "' already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.vararrname().identifier().getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -497,7 +549,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 if(check2 == null){
                     System.err.println("Variable '" + ctx.identifier(1).getText() + "' has not been declared");
                     frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                    noBugsFound = false;
                 }
                 else {
                     if(check2.datatype.equals(checkvalue.datatype)){
@@ -506,7 +557,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     else {
                         System.err.println("Mismatching data types");
                         frame.getjTextPaneDebug().append("Mismatching data types");
-                        noBugsFound = false;
                     }
                 }
             }
@@ -526,7 +576,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable '" + ctx.id.getText() + "' already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -548,7 +597,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 if(check2 == null){
                     System.err.println("Variable " + ctx.identifier(1).getText() + " has not been declared");
                     frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                    noBugsFound = false;
                 }
                 else {
                     if(check2.datatype.equals(checkvalue.datatype)){
@@ -557,7 +605,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     else {
                         System.err.println("Mismatching data types");
                         frame.getjTextPaneDebug().append("Mismatching data types \n");
-                        noBugsFound = false;
                     }
                 }
             }
@@ -577,7 +624,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable '" + ctx.id.getText() + "' already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -602,7 +648,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         else{
             System.err.println("Variable '" + ctx.id.getText() + "' already exists");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' already exists \n");
-            noBugsFound = false;
         }
         return null;
     }
@@ -631,7 +676,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 System.err.println("Add/Subtract error occurred");
                 frame.getjTextPaneDebug().append("Add/Subtract error occurred \n");
                 compute = 0d;
-                noBugsFound = false;
             }
             result = new Value(compute, "double");
             return result;
@@ -662,7 +706,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 System.err.println("Multiply/Divide error occurred");
                 frame.getjTextPaneDebug().append("Multiply/Divide error occurred \n");
                 compute = 0d;
-                noBugsFound = false;
             }
             result = new Value(compute, "double");
             return result;
@@ -694,7 +737,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 System.err.println("Cannot get user input for variable '" + ctx.identifier().getText() + "' (variable does not exist)");
                 frame.getjTextPaneDebug().append("Cannot get user input for variable '" + ctx.identifier().getText() + "' (variable does not exist) \n");
                 mathvalue = new Value(0, "double");
-                noBugsFound = false;
             }
             return mathvalue;
         }
@@ -738,7 +780,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         if(check == null){
             System.err.println("Variable '" + ctx.identifier().getText() + "' has not been declared");
             frame.getjTextPaneDebug().append("Variable '" + ctx.identifier().getText() + "' has not been declared \n");
-            noBugsFound = false;
         }
         else {
             if(check.datatype.equals("int")){
@@ -773,7 +814,6 @@ public class customVisitor extends gBaseVisitor<Value>{
             else {
                 System.err.println("Not an int data type");
                 frame.getjTextPaneDebug().append("'" + ctx.identifier().getText() + "'is not an int data type \n");
-                noBugsFound = false;
             }
         }
 
@@ -900,7 +940,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 System.err.println("Variable '" + ctx.identifier().getText() + "' does not exist");
                 frame.getjTextPaneDebug().append("Variable '" + ctx.identifier().getText() + "' does not exist \n");
                 returnvalue = new Value(0d, "double");
-                noBugsFound = false;
             }
             else{
                 if(checkvalue.datatype.equals("int")){
@@ -916,7 +955,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     System.err.println("Cannot parse variable '" + ctx.identifier().getText() + "'\n");
                     frame.getjTextPaneDebug().append("Cannot parse variable '" + ctx.identifier().getText() + "'\n");
                     returnvalue = new Value(0d, "double");
-                    noBugsFound = false;
                 }
             }
             return returnvalue;
@@ -929,26 +967,122 @@ public class customVisitor extends gBaseVisitor<Value>{
     //Condition
     @Override
     public Value visitIfstatement(gParser.IfstatementContext ctx) {
+        boolean noErrorInIfStatements = true;
         Boolean doElse = true;
-        Boolean ifcondition = this.visit(ctx.nestedcondition().booleanexp()).asBoolean();
+        Boolean ifcondition = false;
+
+        // error checker for if statement
+        if(ctx.nestedcondition().RPARENTHESIS() == null || ctx.nestedcondition().LPARENTHESIS() == null){
+            frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find parenthesis \n");
+            noErrorInIfStatements = false;
+        }
+        if(ctx.nestedcondition().RPARENTHESIS().getText().contains("missing") || ctx.nestedcondition().LPARENTHESIS().getText().contains("missing")){
+            frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find parenthesis \n");
+            noErrorInIfStatements = false;
+        }
+
+        try {
+//            System.out.println("If | Boolean: " + ctx.nestedcondition().booleanexp().getText());
+            String splitIf[] = ctx.nestedcondition().booleanexp().getText().split("<=|>=|!=|==|<|>");
+//            System.out.println("Split[0]: " + splitIf[0]);
+//            System.out.println("Split[1]: " + splitIf[1]);
+            // if there is seen an extra symbol THIS IS NOT SAFE i need to use =!#%&'()*+,-./:;<=>?@[]^_`{|}~ idk how doeee
+            if (splitIf[1].matches("[0-9]+")) {
+                ifcondition = this.visit(ctx.nestedcondition().booleanexp()).asBoolean();
+            } else {
+                frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find expression \n");
+                noErrorInIfStatements = false;
+            }
+        }catch (ArrayIndexOutOfBoundsException e) {
+            frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find expression \n");
+            noErrorInIfStatements = false;
+        }
+
+        if(ctx.block().RBRACE() == null || ctx.block().LBRACE() == null){
+            frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find brace \n");
+            noErrorInIfStatements = false;
+        }
+        if(ctx.block().LBRACE().getText().contains("missing") || ctx.block().RBRACE().getText().contains("missing")){
+            frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find brace \n");
+            noErrorInIfStatements = false;
+        }
+        if(ctx.block().statement().isEmpty()){
+            frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Empty statement in if statement\n");
+            noErrorInIfStatements = false;
+        }
+
         if(ifcondition){
-            this.visit(ctx.start);
-            return null;
+            if(noErrorInIfStatements) {
+                this.visit(ctx.start);
+                return null;
+            }
         }
 
         int i = 0;
-        while(ctx.elseifstatement(i)!=null){
-            //do
-            Boolean elseifcondition = this.visit(ctx.elseifstatement(i).nestedcondition().booleanexp()).asBoolean();
-            if(elseifcondition){
-                this.visit(ctx.elseifstatement(i).middle);
-                return null;
+        while (ctx.elseifstatement(i) != null) {
+            if (ctx.elseifstatement(i).nestedcondition().RPARENTHESIS() == null || ctx.elseifstatement(i).nestedcondition().LPARENTHESIS() == null) {
+                frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInIfStatements = false;
+            }
+            if (ctx.elseifstatement(i).nestedcondition().RPARENTHESIS().getText().contains("missing") || ctx.elseifstatement(i).nestedcondition().LPARENTHESIS().getText().contains("missing")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInIfStatements = false;
+            }
+
+            try{
+                String splitElseIf[] = ctx.elseifstatement(i).nestedcondition().booleanexp().getText().split("<=|>=|!=|==|<|>");
+//                System.out.println("splitElseIf[0]: " + splitAgain[0]);
+//                System.out.println("splitElseIf[1]: " + splitAgain[1]);
+                if (!splitElseIf[1].matches("[0-9]+")) {
+                    System.out.println("불타는 ~~~~ FIREEEE ~~~~");
+                    frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Cannot find expression \n");
+                    noErrorInIfStatements = false;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Cannot find expression \n");
+                noErrorInIfStatements = false;
+            }
+
+            if (ctx.elseifstatement(i).block().RBRACE() == null || ctx.elseifstatement(i).block().LBRACE() == null) {
+                frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInIfStatements = false;
+            }
+            if (ctx.elseifstatement(i).block().LBRACE().getText().contains("missing") || ctx.elseifstatement(i).block().RBRACE().getText().contains("missing")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInIfStatements = false;
+            }
+            if (ctx.elseifstatement(i).block().statement().isEmpty()) {
+                frame.getjTextPaneDebug().append("In line " + ctx.elseifstatement(i).ELSEIF().getSymbol().getLine() + ": Empty statement in if else statement\n");
+                noErrorInIfStatements = false;
+            }
+             if(noErrorInIfStatements){
+                //do
+                Boolean elseifcondition = this.visit(ctx.elseifstatement(i).nestedcondition().booleanexp()).asBoolean();
+                if (elseifcondition) {
+                    this.visit(ctx.elseifstatement(i).middle);
+                    return null;
+                }
             }
             i++;
         }
-        if(ctx.elsestatement()!=null){
-            //do
-            this.visit(ctx.elsestatement().end);
+
+        if(ctx.elsestatement()!=null) {
+            if(ctx.elsestatement().block().RBRACE() == null || ctx.elsestatement().block().LBRACE() == null){
+                frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInIfStatements = false;
+            }
+            if(ctx.elsestatement().block().LBRACE().getText().contains("missing") || ctx.elsestatement().block().RBRACE().getText().contains("missing")){
+                frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInIfStatements = false;
+            }
+            if(ctx.elsestatement().block().statement().isEmpty()){
+                frame.getjTextPaneDebug().append("In line " + ctx.IF().getSymbol().getLine() + ": Empty statement in if statement\n");
+                noErrorInIfStatements = false;
+            }
+            if(noErrorInIfStatements) {
+                //do
+                this.visit(ctx.elsestatement().end);
+            }
         }
         return null;
     }
@@ -956,53 +1090,109 @@ public class customVisitor extends gBaseVisitor<Value>{
     //Loops
     @Override
     public Value visitLoop(gParser.LoopContext ctx) {
-        System.out.println("Loop | While: " + ctx.loopwhile());
-        System.out.println("Loop | DoWhile: " + ctx.loopdowhile());
-        System.out.println("Loop | For: " + ctx.loopfor());
+//        System.out.println("Loop | While: " + ctx.loopwhile());
+//        System.out.println("Loop | DoWhile: " + ctx.loopdowhile());
+//        System.out.println("Loop | For: " + ctx.loopfor());
+        boolean noErrorInLoop = true;
         if(ctx.loopwhile()!=null){
-            if(ctx.loopwhile().nestedcondition().LPARENTHESIS().getText().contains("missing") || ctx.loopwhile().nestedcondition().RPARENTHESIS().getText().contains("missing")
-                || ctx.loopwhile().nestedcondition().RPARENTHESIS() == null || ctx.loopwhile().nestedcondition().RPARENTHESIS() == null ) {
-               frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + " : Cannot find parenthesis \n");
-               noBugsFound = false;
+            if(ctx.loopwhile().nestedcondition().RPARENTHESIS() == null || ctx.loopwhile().nestedcondition().RPARENTHESIS() == null){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInLoop = false;
+            }
+            if(ctx.loopwhile().nestedcondition().LPARENTHESIS().getText().contains("missing") || ctx.loopwhile().nestedcondition().RPARENTHESIS().getText().contains("missing")) {
+               frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInLoop = false;
             }
 
-            System.out.println("LoopWhile | block: " + ctx.loopwhile().block());
-            //while
-            //System.out.println("while loop");
-            System.out.println("LoopWhile | booleanExp: " + this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean());
-            if(!this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean()) {
-                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + " : No expression found \n");
-                noBugsFound = false;
-            } else {
-                while (this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean()) {
-                    new LoopStatement(ctx.loopwhile().block(), memory, functionMap, customVisitor.this, frame);
+            if(ctx.loopwhile().block().RBRACE() == null || ctx.loopwhile().block().LBRACE() == null){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInLoop = false;
+            }
+            if(ctx.loopwhile().block().LBRACE().getText().contains("missing") || ctx.loopwhile().block().RBRACE().getText().contains("missing")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInLoop = false;
+            }
+
+            if(ctx.loopwhile().block().statement().isEmpty()){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": Empty statement in while loop \n");
+                noErrorInLoop = false;
+            }
+
+            try {
+                String splitWhile[] = ctx.loopwhile().nestedcondition().booleanexp().getText().split("<=|>=|!=|==|<|>");
+                if (!splitWhile[1].matches("[0-9]+")) {
+                    frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": No expression found \n");
+                    noErrorInLoop = false;
+                } else {
+                    //while
+                    //System.out.println("while loop");
+                    while (this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean()) {
+                        new LoopStatement(ctx.loopwhile().block(), memory, functionMap, customVisitor.this, frame);
+                    }
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopwhile().WHILE().getSymbol().getLine() + ": No expression found \n");
+                noErrorInLoop = false;
             }
             return null;
         }
         else if(ctx.loopdowhile()!=null){
-            do{
-                new LoopStatement(ctx.loopdowhile().block(), memory, functionMap, customVisitor.this, frame);
-            }while(this.visit(ctx.loopdowhile().nestedcondition().booleanexp()).asBoolean());
-            //do-while
-        }
-        else if(ctx.loopfor()!=null){
-            // ERROR CHECKING
-            System.out.println("LoopFor | For: " + ctx.loopfor().getText());
-//            System.out.println("LoopFor | LPARE: " +ctx.loopfor().LPARENTHESIS());
-//            System.out.println("LoopFor | RPARE: " +ctx.loopfor().RPARENTHESIS());
-            if(ctx.loopfor().RPARENTHESIS() == null || ctx.loopfor().RPARENTHESIS().getText().contains("missing") || ctx.loopfor().LPARENTHESIS().getText().contains("missing")){
-                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : Cannot find parenthesis \n");
-                noBugsFound = false;
+            if(ctx.loopdowhile().nestedcondition().RPARENTHESIS() == null || ctx.loopdowhile().nestedcondition().RPARENTHESIS() == null){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInLoop = false;
             }
-            System.out.println("LoopFor | SEMI: " +ctx.loopfor().SEMICOLON().size());
-            if(ctx.loopfor().SEMICOLON().size() != 2) {
-                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : There should be only 2 semicolons \n");
-                noBugsFound = false;
+            if(ctx.loopdowhile().nestedcondition().LPARENTHESIS().getText().contains("missing") || ctx.loopdowhile().nestedcondition().RPARENTHESIS().getText().contains("missing")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInLoop = false;
             }
 
-            System.out.println("LoopFor | IntDeclaration: " + ctx.loopfor().intdeclaration());
-            System.out.println("LoopFor | Assignment: " + ctx.loopfor().assignment());
+            if(ctx.loopdowhile().block().LBRACE() == null || ctx.loopdowhile().block().RBRACE() == null){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInLoop = false;
+            }
+            if(ctx.loopdowhile().block().LBRACE().getText().contains("missing") || ctx.loopdowhile().block().RBRACE().getText().contains("missing")){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": Cannot find brace \n");
+                noErrorInLoop = false;
+            }
+
+            if(ctx.loopdowhile().block().statement().isEmpty()){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": Empty statement in do while loop \n");
+                noErrorInLoop = false;
+            }
+
+            try {
+                String splitDoWhile[] = ctx.loopdowhile().nestedcondition().booleanexp().getText().split("<=|>=|!=|==|<|>");
+                if (!splitDoWhile[1].matches("[0-9]+")) {
+                    frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": No expression found \n");
+                    noErrorInLoop = false;
+                } else {
+                    do {
+                        new LoopStatement(ctx.loopdowhile().block(), memory, functionMap, customVisitor.this, frame);
+                    } while (this.visit(ctx.loopdowhile().nestedcondition().booleanexp()).asBoolean());
+                    //do-while
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopdowhile().WHILE().getSymbol().getLine() + ": No expression found \n");
+                noErrorInLoop = false;
+            }
+        }
+        else if(ctx.loopfor()!=null){
+            // error checking for loop
+            if(ctx.loopfor().RPARENTHESIS() == null || ctx.loopfor().LPARENTHESIS() == null){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInLoop = false;
+            }
+            if(ctx.loopfor().RPARENTHESIS().getText().contains("missing") || ctx.loopfor().LPARENTHESIS().getText().contains("missing")){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": Cannot find parenthesis \n");
+                noErrorInLoop = false;
+            }
+
+//            System.out.println("LoopFor | SEMI: " +ctx.loopfor().SEMICOLON().size());
+            if(ctx.loopfor().SEMICOLON().size() != 2) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": There should be only 2 semicolons \n");
+                noErrorInLoop = false;
+            }
+
             if(ctx.loopfor().intdeclaration() == null && ctx.loopfor().assignment(0).isEmpty()){
                 frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": Cannot find declaration/ assignment operator");
             } else {
@@ -1015,13 +1205,18 @@ public class customVisitor extends gBaseVisitor<Value>{
                 }
             }
 
-//            System.out.println("LoopWhile | booleanExp: " + this.visit(ctx.loopwhile().nestedcondition().booleanexp()).asBoolean());
-            if(!this.visit(ctx.loopfor().booleanexp()).asBoolean()) {
-                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : No expression found \n");
-                noBugsFound = false;
+            if(ctx.loopfor().block().statement().isEmpty()){
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": Empty statement in for loop \n");
+                noErrorInLoop = false;
+            }
+
+            String splitFor[] = ctx.loopfor().booleanexp().getText().split("<=|>=|!=|==|<|>");
+            if (!splitFor[1].matches("[0-9]+")) {
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": No expression found \n");
+                noErrorInLoop = false;
             } else if (ctx.loopfor().operation() == null) {
-                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + " : Cannot find assignment statement \n");
-                noBugsFound = false;
+                frame.getjTextPaneDebug().append("In line " + ctx.loopfor().FOR().getSymbol().getLine() + ": Cannot find assignment statement \n");
+                noErrorInLoop = false;
             } else {
                 //increment
                 while (this.visit(ctx.loopfor().booleanexp()).asBoolean() ) {
@@ -1047,7 +1242,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         if(checkvalue == null){
             System.err.println("Variable " + ctx.id.getText() + " has not been declared");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' has not been declared \n");
-            noBugsFound = false;
         }
         else{
             if(ctx.charliteral() != null){
@@ -1059,7 +1253,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 else {
                     System.err.println("Type mismatch");
                     frame.getjTextPaneDebug().append("Type mismatch \n");
-                    noBugsFound = false;
                 }
 
             }
@@ -1102,7 +1295,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     if(check2 == null){
                         System.err.println("Variable '" + ctx.identifier(1).getText() + "' has not been declared");
                         frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                        noBugsFound = false;
                     }
                     else {
                         if(check2.datatype.equals(checkvalue.datatype)){
@@ -1111,7 +1303,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                         else {
                             System.err.println("Mismatching data types");
                             frame.getjTextPaneDebug().append("Type mismatch \n");
-                            noBugsFound = false;
                         }
                     }
                 }
@@ -1120,7 +1311,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                     if(check2 == null){
                         System.err.println("Variable '" + ctx.identifier(1).getText() + "' has not been declared");
                         frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                        noBugsFound = false;
                     }
                     else {
                         //assign code
@@ -1143,7 +1333,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                             else {
                                 System.err.println("Mismatching data types");
                                 frame.getjTextPaneDebug().append("Type mismatch \n");
-                                noBugsFound = false;
                             }
                         }
                         else{
@@ -1165,7 +1354,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                             else {
                                 System.err.println("Mismatching data types");
                                 frame.getjTextPaneDebug().append("Type mismatch \n");
-                                noBugsFound = false;
                             }
                         }
                     }
@@ -1192,7 +1380,6 @@ public class customVisitor extends gBaseVisitor<Value>{
         if(checkvalue == null){
             System.err.println("Variable '" + ctx.id.getText() + "' has not been declared");
             frame.getjTextPaneDebug().append("Variable '" + ctx.id.getText() + "' has not been declared \n");
-            noBugsFound = false;
         }
         else {
             int index;
@@ -1230,7 +1417,6 @@ public class customVisitor extends gBaseVisitor<Value>{
                 if(check2 == null){
                     System.err.println("Variable '" + ctx.identifier(1).getText() + "' has not been declared");
                     frame.getjTextPaneDebug().append("Variable '" + ctx.identifier(1).getText() + "' has not been declared \n");
-                    noBugsFound = false;
                 }
                 else {
                     if(checkvalue.datatype.equals("intarray")){
@@ -1259,14 +1445,12 @@ public class customVisitor extends gBaseVisitor<Value>{
                     else{
                         System.err.println("Type mismatch");
                         frame.getjTextPaneDebug().append("Type mismatch \n");
-                        noBugsFound = false;
                     }
                 }
             }
             else{
                 System.err.println("an array error occurred");
                 frame.getjTextPaneDebug().append("an array error occurred \n");
-                noBugsFound = false;
             }
         }
         return null;
@@ -1275,9 +1459,29 @@ public class customVisitor extends gBaseVisitor<Value>{
     //scan and print
     @Override
     public Value visitScan(gParser.ScanContext ctx) {
+        boolean noErrorInScan = true;
+        if(ctx.LPARENTHESIS().getText().contains("missing")|| ctx.RPARENTHESIS().getText().contains("missing")){
+            frame.getjTextPaneDebug().append("In line " + ctx.SCAN().getSymbol().getLine() + ": Cannot find parenthesis \n");
+            noErrorInScan = false;
+        }
+        if(ctx.COMMA().getText().contains("missing")){
+            frame.getjTextPaneDebug().append("In line " + ctx.SCAN().getSymbol().getLine() + ": Cannot find comma \n");
+            noErrorInScan = false;
+        }
 
+        if(ctx.stringliteral().STRING_LITERAL().getText().contains("missing")){
+            frame.getjTextPaneDebug().append("In line " + ctx.SCAN().getSymbol().getLine() + ": Cannot find string literal \n");
+            noErrorInScan = false;
+
+        }
+
+        if(ctx.identifier().IDENTIFIER().getText().contains("missing")){
+            frame.getjTextPaneDebug().append("In line " + ctx.SCAN().getSymbol().getLine() + ": Cannot find identifier \n");
+            noErrorInScan = false;
+        }
+
+        if(noErrorInScan) {
             Value checkvalue = memory.get(ctx.identifier().getText());
-
             if (checkvalue != null) {
                 System.out.print(ctx.stringliteral().getText().substring(1, ctx.stringliteral().getText().length() - 1));
                 frame.getjTextPaneDebug().append(ctx.stringliteral().getText().substring(1, ctx.stringliteral().getText().length() - 1));
@@ -1316,39 +1520,37 @@ public class customVisitor extends gBaseVisitor<Value>{
                 } else {
                     System.err.println("Cannot identify datatype for variable " + ctx.identifier().getText());
                     frame.getjTextPaneDebug().append("Cannot identify datatype for variable '" + ctx.identifier().getText() + "'\n");
-                    noBugsFound = false;
                 }
             } else {
                 System.err.println("Cannot get user input for variable " + ctx.identifier().getText() + " (variable does not exist)");
                 frame.getjTextPaneDebug().append("Cannot get user input for variable '" + ctx.identifier().getText() + "' (variable does not exist) \n");
-                noBugsFound = false;
             }
-//        }
+        }
         return null;
     }
 
     @Override
     public Value visitPrint(gParser.PrintContext ctx) {
+        boolean noErrorInPrint = true;
         System.out.println("Print: " +ctx.getText());
-        System.out.println("Print | Printblock | RPAR: " + ctx.printblock().RPARENTHESIS());
-        System.out.println("Print | Printblock | LPAR: " + ctx.printblock().LPARENTHESIS());
-        if(ctx.printblock().RPARENTHESIS().getText().contains("missing") || ctx.printblock().LPARENTHESIS().getText().contains("missing"))
+//        System.out.println("Print | Printblock | RPAR: " + ctx.printblock().RPARENTHESIS());
+//        System.out.println("Print | Printblock | LPAR: " + ctx.printblock().LPARENTHESIS());
+        if(ctx.printblock().RPARENTHESIS().getText().contains("missing") || ctx.printblock().LPARENTHESIS().getText().contains("missing")) {
             frame.getjTextPaneDebug().append("In Line " + ctx.PRINT().getSymbol().getLine() + ": Missing brace\n");
-        boolean index = true;
+        }
         try{
             String split[] = ctx.getText().split("\\(|\\)");
             System.err.println("Split: " + split[1]);
             if(split[1].substring(split[1].length()-1).equals("+")) {
                 frame.getjTextPaneDebug().append("In Line " + ctx.PRINT().getSymbol().getLine() + ": Missing string \n");
-                noBugsFound = false;
-                index = false;
+                noErrorInPrint = false;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             frame.getjTextPaneDebug().append("In Line " + ctx.PRINT().getSymbol().getLine() + ": Missing string \n");
-            index = false;
+            noErrorInPrint = false;
         }
 
-        if(index == true) {
+        if(noErrorInPrint) {
             int i = 0;
             while (ctx.printblock().stringcontent(i) != null) {
                 if (ctx.printblock().stringcontent(i).stringliteral() != null) {
@@ -1383,12 +1585,10 @@ public class customVisitor extends gBaseVisitor<Value>{
                         } else {
                             System.err.println("Cannot identify datatype for variable " + identifier);
                             frame.getjTextPaneDebug().append("Cannot identify datatype for variable '" + identifier + "'\n");
-                            noBugsFound = false;
                         }
                     } else {
                         System.err.println("Cannot get user input for variable " + identifier + " (variable does not exist)");
                         frame.getjTextPaneDebug().append("Cannot get user input for variable '" + identifier + "' (variable does not exist) \n");
-                        noBugsFound = false;
                     }
                 }
                 i++;
@@ -1401,223 +1601,42 @@ public class customVisitor extends gBaseVisitor<Value>{
 
     @Override
     public Value visitProgram(gParser.ProgramContext ctx) {
-        System.out.println("Program: " + ctx.getText());
-//        System.out.println("Program: " + ctx.globaldelcaration());
-//        System.out.println("Program: " + ctx.function());
-//        System.out.println("Program: " + ctx.main());
-//        System.out.println("Program: " + ctx.function());
-        if(ctx.globaldelcaration() == null || ctx.function() == null || ctx.main() == null) {
+//        System.out.println("Program: " + ctx.getText());
+        if(ctx.globaldelcaration() == null || ctx.function() == null || ctx.main() == null)
             frame.getjTextPaneDebug().append("Mismatch declaration expecting {'fonction ', 'essentiel', 'global '} \n");
-            noBugsFound = false;
-        }
+
         return visitChildren(ctx);
     }
 
     @Override
     public Value visitMain(gParser.MainContext ctx) {
-        if(ctx.MAIN() == null) {
+        if(ctx.MAIN() == null)
             frame.getjTextPaneDebug().append("Mismatch declaration expecting {'fonction ', 'essentiel'} \n");
-            noBugsFound = false;
-        }
-        return visitChildren(ctx);
-    }
 
-    @Override
-    public Value visitFunctionvoidblock(gParser.FunctionvoidblockContext ctx) {
-        System.out.println("FunctionVoidBlock | Statement: " + ctx.statement());
-        return visitChildren(ctx);
-    }
+        if(ctx.block().RBRACE() == null || ctx.block().LBRACE() == null)
+            frame.getjTextPaneDebug().append("In line " + ctx.MAIN() + ": Cannot find brace \n");
 
-    @Override
-    public Value visitFunctionreturnblock(gParser.FunctionreturnblockContext ctx) {
-        System.out.println("FunctionVoidBlock | Statement: " + ctx.statement());
-        return visitChildren(ctx);
-    }
+        if(ctx.block().LBRACE().getText().contains("missing") || ctx.block().RBRACE().getText().contains("missing"))
+            frame.getjTextPaneDebug().append("In line " + ctx.MAIN() + ": Cannot find brace \n");
 
-    @Override
-    public Value visitFunctionparameters(gParser.FunctionparametersContext ctx) {
-        System.out.println("FunctionParameters | LPAREN: " + ctx.LPARENTHESIS());
-        System.out.println("FunctionParameters | RPAREN: " + ctx.RPARENTHESIS());
-        if(ctx.LPARENTHESIS() == null && ctx.RPARENTHESIS() == null) {
-            frame.getjTextPaneDebug().append("Missing parenthesis \n");
-            noBugsFound = false;
-        }
-        if(ctx.LPARENTHESIS().getText().contains("missing")|| ctx.RPARENTHESIS() == null) {
-            frame.getjTextPaneDebug().append("Missing parenthesis \n");
-            noBugsFound = false;
-        }
-        // TODO: NOT WORKING PROPERLY for FUNCTION PARAMETERS ONLY BEING CALLED IN CALL PARAMETERS TOO >:(
-        System.out.println("FunctionParameters | declaration: " + ctx.declaration(0));
-//        if(ctx.declaration(0) == null)
-//            frame.getjTextPaneDebug().append("Cannot find declaration in " + ctx.getText() + "\n");
-//        System.out.println("FunctionParameters | COMMA: " + ctx.COMMA());
-//        System.out.println("FunctionParameters | declaration: " + ctx.declaration(1));
+        if(ctx.block().statement() == null)
+            frame.getjTextPaneDebug().append("In line " + ctx.MAIN() + ": Cannot find statement \n");
 
-
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitCallparameter(gParser.CallparameterContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitGlobaldelcaration(gParser.GlobaldelcarationContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitDeclaration(gParser.DeclarationContext ctx) {
-
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitSingledeclaration(gParser.SingledeclarationContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitArraydeclaration(gParser.ArraydeclarationContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitArrval(gParser.ArrvalContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitIndex(gParser.IndexContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitCondition(gParser.ConditionContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitElseifstatement(gParser.ElseifstatementContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitElsestatement(gParser.ElsestatementContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    // TODO: SKEEPY
-    public Value visitLoopfor(gParser.LoopforContext ctx) {
-//        System.out.println("LoopFor | LPAR: " + ctx.LPARENTHESIS());
-//        System.out.println("LoopFor | RPAR: " + ctx.RPARENTHESIS());
-//        if(ctx.LPARENTHESIS() == null || ctx.RPARENTHESIS() == null)
-//            frame.getjTextPaneDebug().append("In line " + ctx.FOR().getSymbol().getLine() +" : Missing parenthesis \n");
-//        System.out.println("LoopFor | RPAR: " + ctx.RPARENTHESIS());
-//        if(ctx.LPARENTHESIS() == null || ctx.RPARENTHESIS() == null)
-            frame.getjTextPaneDebug().append("In line " + ctx.FOR().getSymbol().getLine() +" : Missing parenthesis \n");
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitLoopwhile(gParser.LoopwhileContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitLoopdowhile(gParser.LoopdowhileContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitShortopr(gParser.ShortoprContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitPrintblock(gParser.PrintblockContext ctx) {
-        System.out.println("PrintBlock: " + ctx.getText());
-//        System.out.println("PrintBlock | LPAR: " + ctx.LPARENTHESIS());
-//        System.out.println("PrintBlock | stringcontent: " + ctx.stringcontent());
-//        System.out.println("PrintBlock | LPAR: " + ctx.LPARENTHESIS());
-//        System.out.println("PrintBlock | LPAR: " + ctx.LPARENTHESIS());
-//        System.out.println("PrintBlock | LPAR: " + ctx.LPARENTHESIS());
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitStringcontent(gParser.StringcontentContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitNestedcondition(gParser.NestedconditionContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitVararrname(gParser.VararrnameContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitIdentifier(gParser.IdentifierContext ctx) {
-
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitCharliteral(gParser.CharliteralContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitStringliteral(gParser.StringliteralContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitIntliteral(gParser.IntliteralContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitFloatliteral(gParser.FloatliteralContext ctx) {
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public Value visitBlock(gParser.BlockContext ctx) {
-        System.out.println("Block: " + ctx.getText());
-//        System.out.println("Block | LBRACE: " + ctx.LBRACE());
-//        System.out.println("Block | RBRACE: " + ctx.RBRACE());
-        if(ctx.RBRACE().getText().contains("missing") || ctx.LBRACE().getText().contains("missing")) {
-            System.out.println("Missing brace");
-            frame.getjTextPaneDebug().append("Missing brace \n");
-            noBugsFound = false;
-        }
-        System.out.println("Block | statement: " +ctx.statement());
-        if(ctx.statement().isEmpty()) {
-            System.out.println("Empty Statement");
-            frame.getjTextPaneDebug().append("Empty Statement \n");
-            noBugsFound = false;
-        }
         return visitChildren(ctx);
     }
 
     @Override
     public Value visitStatement(gParser.StatementContext ctx) {
         System.out.println("Statement: " + ctx.getText());
+        boolean notStated = true;
 //        System.out.println("Statement | Declaration: " + ctx.declaration());
         if (ctx.declaration() != null) {
             String split[] = ctx.getText().split(";|<missing");
             if (!split[0].equals(ctx.declaration().getText())) {
-                System.out.println("SPLIT{0}: " + split[0]);
-                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.declaration().getText() + ";'\n");
-                noBugsFound = false;
+//                System.out.println("SPLIT{0}: " + split[0]);
+//                System.out.println(" CTX: " + ctx.declaration().getText());
+                frame.getjTextPaneDebug().append("Cannot identify the declaration statement '" + ctx.getText() + "'\n    Suggested: '" + ctx.declaration().getText() + ";'\n");
+                notStated = false;
             }
         }
 //        System.out.println("Statement | Assignment: " + ctx.assignment());
@@ -1626,18 +1645,27 @@ public class customVisitor extends gBaseVisitor<Value>{
             if (!split[0].equals(ctx.assignment().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.assignment().getText() + ";'\n");
-                noBugsFound = false;
+                frame.getjTextPaneDebug().append("Cannot identify the assignment statement '" + ctx.getText() + "'\n    Suggested: '" + ctx.assignment().getText() + ";'\n");
+                notStated = false;
             }
         }
 //        System.out.println("Statement | Condition: " + ctx.condition());
         if(ctx.condition() != null) {
-            String split[] = ctx.getText().split(";|<missing");
-            if (!split[0].equals(ctx.condition().getText())) {
-//                System.out.println("SPLIT{0}: " + split[0]);
-//                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.condition().getText() + ";'\n");
-                noBugsFound = false;
+            if(ctx.getText().contains("missing")) {
+                String split[] = ctx.getText().split("<missing");
+                if (!split[0].substring(0, split[0].length()).equals(ctx.condition().getText())) {
+//                    System.out.println("Statement: " + split[0].substring(0, split[0].length()));
+//                    System.out.println(" Loop: " + ctx.condition().getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the condition statement '" + split[0] + "'\n    Suggested: '" + ctx.condition().getText() + ";'\n");
+                    notStated = false;
+                }
+            } else {
+                if (!ctx.getText().substring(0, ctx.getText().length() - 1).equals(ctx.condition().getText())) {
+//                    System.out.println("Statement: " + ctx.getText().substring(0, ctx.getText().length() - 1));
+//                    System.out.println(" Loop: " + ctx.condition().getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the condition statement '" + ctx.getText().substring(0, ctx.getText().length() - 1) + "'\n    Suggested: '" + ctx.condition().getText() + ";'\n");
+                    notStated = false;
+                }
             }
         }
 //        System.out.println("Statement | Loop: " + ctx.loop());
@@ -1645,17 +1673,17 @@ public class customVisitor extends gBaseVisitor<Value>{
             if(ctx.getText().contains("missing")) {
                 String split[] = ctx.getText().split("<missing");
                 if (!split[0].substring(0, split[0].length()).equals(ctx.loop().getText())) {
-                    System.out.println("Statement: " + split[0].substring(0, split[0].length()));
-                    System.out.println(" Loop: " + ctx.loop().getText());
-                    frame.getjTextPaneDebug().append("Cannot identify the syntax '" + split[0] + "'\n    Suggested: '" + ctx.loop().getText() + ";'\n");
-                    noBugsFound = false;
+//                    System.out.println("Statement: " + split[0].substring(0, split[0].length()));
+//                    System.out.println(" Loop: " + ctx.loop().getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the loop statement '" + split[0] + "'\n    Suggested: '" + ctx.loop().getText() + ";'\n");
+                    notStated = false;
                 }
             } else {
                 if (!ctx.getText().substring(0, ctx.getText().length() - 1).equals(ctx.loop().getText())) {
-                    System.out.println("Statement: " + ctx.getText().substring(0, ctx.getText().length() - 1));
-                    System.out.println(" Loop: " + ctx.loop().getText());
-                    frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText().substring(0, ctx.getText().length() - 1) + "'\n    Suggested: '" + ctx.loop().getText() + ";'\n");
-                    noBugsFound = false;
+//                    System.out.println("Statement: " + ctx.getText().substring(0, ctx.getText().length() - 1));
+//                    System.out.println(" Loop: " + ctx.loop().getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the loop statement '" + ctx.getText().substring(0, ctx.getText().length() - 1) + "'\n    Suggested: '" + ctx.loop().getText() + ";'\n");
+                    notStated = false;
                 }
             }
         }
@@ -1665,72 +1693,59 @@ public class customVisitor extends gBaseVisitor<Value>{
             if (!split[0].equals(ctx.operation().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.operation().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.operation().getText() + ";'\n");
-                noBugsFound = false;
+                frame.getjTextPaneDebug().append("Cannot identify the operation statement '" + ctx.getText() + "'\n    Suggested: '" + ctx.operation().getText() + ";'\n");
+                notStated = false;
             }
         }
 //        System.out.println("Statement | Call: " + ctx.call());
         if(ctx.call() != null){
-            System.out.println("Call | IDENTIFIER: " + ctx.call().identifier().IDENTIFIER());
-            System.out.println("Call | LPAR: " + ctx.call().LPARENTHESIS());
-            System.out.println("Call | RPAR: " + ctx.call().RPARENTHESIS());
-            System.out.println("Call | callparameter: " + ctx.call().callparameter());
-            if(ctx.call().RPARENTHESIS() == null || ctx.call().LPARENTHESIS() == null) {
-                frame.getjTextPaneDebug().append("In Line " + ctx.call().CALL().getSymbol().getLine() + ": Missing Parenthesis");
-                noBugsFound = false;
-            }
-            if(ctx.call().LPARENTHESIS().getText().contains("missing") || ctx.call().RPARENTHESIS().getText().contains("missing")) {
-                frame.getjTextPaneDebug().append("In Line " + ctx.call().CALL().getSymbol().getLine() + ": Missing Parenthesis");
-                noBugsFound = false;
-            }
-            String split[] = ctx.getText().split(";|<missing");
+            String split[] = ctx.getText().split(";");
             if (!split[0].equals(ctx.call().getText())) {
-                System.out.println("SPLIT{0}: " + split[0]);
-                System.out.println(" CTX: " + ctx.call().getText());
-                frame.getjTextPaneDebug().append("Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.call().getText() + ";'\n");
-                noBugsFound = false;
+//                System.out.println("SPLIT{0}: " + split[0]);
+//                System.out.println(" CTX: " + ctx.call().getText());
+                frame.getjTextPaneDebug().append("Cannot identify the call statement '" + ctx.getText() + "'\n    Suggested: '" + ctx.call().getText() + ";'\n");
+                notStated = false;
             }
         }
 //        System.out.println("Statement | Print: " + ctx.print());
         if(ctx.print() != null) {
-            String split[] = ctx.getText().split(";|<missing");
+            String split[] = ctx.getText().split(";");
             if (!split[0].equals(ctx.print().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("In line " + ctx.print().PRINT().getSymbol().getLine() + ": Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.print().getText() + ";'\n");
-                noBugsFound = false;
+                frame.getjTextPaneDebug().append("In line " + ctx.print().PRINT().getSymbol().getLine() + ": Cannot identify the print statement '" + ctx.getText() + "'\n    Suggested: '" + ctx.print().getText() + ";'\n");
+                notStated = false;
             }
         }
 //        System.out.println("Statement | Scan: " + ctx.scan());
         if(ctx.scan() != null){
-            if(ctx.scan().LPARENTHESIS().getText().contains("missing")|| ctx.scan().RPARENTHESIS().getText().contains("missing")){
-                frame.getjTextPaneDebug().append("In line" + ctx.scan().SCAN().getSymbol().getLine() + " : Cannot find parenthesis \n");
-                noBugsFound = false;
-            }
-            if(ctx.scan().COMMA().getText().contains("missing")){
-                frame.getjTextPaneDebug().append("In Line " + ctx.scan().SCAN().getSymbol().getLine() + " : Cannot find comma \n");
-                noBugsFound = false;
-            }
-            String split[] = ctx.getText().split(";|<missing");
+            String split[] = ctx.getText().split(";");
             if (!split[0].equals(ctx.scan().getText())) {
 //                System.out.println("SPLIT{0}: " + split[0]);
 //                System.out.println(" CTX: " + ctx.declaration().getText());
-                frame.getjTextPaneDebug().append("In line " + ctx.scan().SCAN().getSymbol().getLine() + ": Cannot identify the syntax '" + ctx.getText() + "'\n    Suggested: '" + ctx.scan().getText() + ";'\n");
-                noBugsFound = false;
+                frame.getjTextPaneDebug().append("In line " + ctx.scan().SCAN().getSymbol().getLine() + ": Cannot identify the scan statement '" + ctx.getText() + "'\n    Suggested: '" + ctx.scan().getText() + ";'\n");
+                notStated = false;
             }
         }
-
         try {
-            System.out.println("Statement | SEMICOLON: " + ctx.SEMICOLON());
+//            System.out.println("Statement | SEMICOLON: " + ctx.SEMICOLON());
             if (ctx.SEMICOLON().getText().contains("missing")) {
                 String split[] = ctx.getText().split("<missing");
                 frame.getjTextPaneDebug().append("Missing semicolon in '" + split[0] + "'\n");
-                noBugsFound = false;
             }
         } catch (NullPointerException e) {
-            System.out.println("Cannot identify the function \n");
-            frame.getjTextPaneDebug().append("Cannot identify the function\n");
-            noBugsFound = false;
+            if(notStated) {
+                System.out.println("Not Stated: " + notStated);
+                System.out.println("Length: " + ctx.getText().length());
+                if (ctx.getText().length() != 0) {
+                    System.out.println("Cannot identify the statement in " + ctx.getText());
+                    frame.getjTextPaneDebug().append("Cannot identify the statement in " + ctx.getText() + " \n");
+                }
+            } else {
+                System.out.println("Length: " + ctx.getText().length());
+                System.out.println("Cannot identify the statement");
+                frame.getjTextPaneDebug().append("Cannot identify the statement \n");
+            }
         }
         return visitChildren(ctx);
     }
