@@ -3,9 +3,38 @@
 Parser/ErrorChecking branch of the CompilerProject
 
 ## Checklist
+- [x] Error Handler: If statements
+    - Cannot handle if x==<VARIABLE>
+    - Stopped it from printing if its syntax error
+- [x] Error Handler: visitStatement Function
+    - In function VisitStatement compared it to check if all tokens passed is really included
+    - Error checked semicolon in VisitStatement
+- [x] Error Handler: Loop
+    - Cannot handle if x==<VARIABLE>
+    - In while loop, doesn't print when there is error
+- [x] Error Handler: Call 
+    - Cannot stop it from going inside the Functions Func
+- [x] Error Handler: Print
+    - Stops it from printing when syntax error
+- [x] Error Handler: visitProgram
+    - Checks if fonction and fam is there
+- [x] Error Handler: visitMain
+    - Check if essentiel and fam is there 
+- [x] Error Handler: Function
+    - In visitCall --> Cant get called to "Fonction vide <FUNCTION NAME>(/*insert error*/ i)" says arrayIndexOutOfBound when theres error in the syntax of the supposed to be called function 
+    - Used instincts in FunctionReturn because no example given
+- [x] Error Handler: Return Statement
+   - Placed it inside the != becuase considered statements with 
+     rappel fTest * 50 ();
+- [x] Error Handler: Scan
+   - No major changes
+- [ ] Error Handler: Assignment
+- [ ] Error Handler: Numbers
 
+# Needs
+- [] Cant identify if wrong function name in main
 
-## Test Cases Used
+## Test Cases Made
 #### Return Function #1
 ```java
 fonction nombre test(){
@@ -135,6 +164,7 @@ essentiel{
     appel testOne()(x);
 }
 ```
+# Given Test Case
 #### Given Test Case #1
 ```java
 fonction nombre myFunction(nombre x){
