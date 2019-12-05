@@ -1,0 +1,206 @@
+Task:
+[/] Error Handler: If statements
+    - Cannot handle if x==<VARIABLE>
+    - Stoped it from printing if its syntax       error
+[/] Error Handler: visitStatement Function
+    - In function VisitStatement compared it       to check if all tokens passed is really       included
+    - Error checked semicolon in       VisitStatement
+[/] Error Handler: Loop
+    - Cannot handle if x==<VARIABLE>
+    - In while loop, doesnt print when there       is error
+[/] Error Handler: Call 
+    - Cannot stop it from going inside the       Functions Func
+[/] Error Handler: Print
+    - Stops it from printing when syntax error
+[/] Error Handler: visitProgram
+    - Checks if fonction and fam is there
+[/] Error Handler: visitMain
+    - Check if essentiel and fam is there 
+[/] Error Handler: Function
+    - In visitCall --> Cant get called to       "Fonction vide <FUNCTION NAME>(/*insert       error*/ i)" says arrayIndexOutOfBound       when theres error in the syntax of the       supposed to be called function 
+    - Used instincts in FunctionReturn because       no example given
+[/] Error Handler: Return Statement
+   - Placed it inside the != becuase      considered statements with 
+     rappel fTest * 50 ();
+[/] Error Handler: Scan
+   - No major changes
+[] Error Handler: Assignment
+[] Error Handler: Numbers
+Needds:
+[] Cant identify if wrong function name in main
+
+|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|
+
+Test cases:
+===========RETURN FUNCTION=========== 
+fonction nombre test(){
+    nombre x = 50;
+    rappel x;
+    }
+
+essentiel{
+    nombre lol = appel test();
+    imprimer("grade:" + lol);
+}
+===========RETURN FUNCTION=========== 
+fonction decimale grade(){   
+    decimale x = 50;
+    rappel x;
+}
+
+essentiel{
+    decimale lol = appel grade();
+    impremer("grade" + lol);
+}
+===========FUNCTION PARENTHESIS===========
+fonction vide testOne(nombre i){
+    nombre x = 0;
+    tandis que(i<5){
+        imprimer("Hello " +x);
+        i++;
+   };
+}
+essentiel{
+    appel testOne(2);
+}
+===========IF STATEMENT===========
+fonction vide testOne(){
+    nombre temp;
+    analyse("Enter temperature: ", temp);
+    si(temp < 20) {
+        imprimer("IT'S COLD!");
+    } autre si(temp > 30) {
+        imprimer("IT'S HOT!");
+    } autre {
+        imprimer("COOL CLIMATE");
+    };
+}
+essentiel{
+    appel testOne();
+}
+===========IF STATEMENT===========
+fonction vide testOne(){
+    nombre x = 5;
+    nombre y = 10;
+    si(x<5){
+        imprimer("Hello");
+    } autre si (y==10){
+         imprimer("World");
+    } autre {
+        imprimer("Hello World");
+    };
+}
+essentiel{
+    appel testOne();
+}
+===========DO WHILE STATEMENT===========
+fonction vide testOne(){
+    nombre x = 0;
+    analyse("Input a number: ", x);
+    nombre i = 0;
+    faire{
+        imprimer("Hello " +x);
+        i++;
+    } tandis que(i<2);
+}
+essentiel{
+    appel testOne();
+}
+===========IF STATEMENT=========== 
+fonction vide testOne(){
+    nombre x = 5;
+    si(x==5){
+        imprimer("Hello");
+    };
+}
+essentiel{
+    appel testOne();
+}
+===========WHILE STATEMENT===========
+fonction vide testOne(){
+    nombre x = 0;
+    analyse("Input a number: ", x);
+
+    nombre i = 0
+    tandis que(i<5){
+        imprimer("Hello " +x);
+        i++;
+   };
+}
+essentiel{
+    appel testOne();
+}
+===========FOR STATEMENT===========
+fonction vide testOne(){
+    nombre x = 0;
+    analyse("Input a number: ", x);
+
+    pour(nombre i; i<10; i+=1){
+        imprimer("Hello " +x+);
+
+}
+essentiel{
+    appel testOne()(x);
+}
+===========GIVEN TESTCASE===========
+fonction nombre myFunction(nombre x){
+    nombre add = x + 50 ++ 1;
+
+    rappel nombre;
+}
+
+fonction decimale myFunctionFloat(decimale x){
+    decimale fTest = (x * 50) + (x * 15));
+
+    rappel fTest * 50 ();
+}
+
+essentiel{
+    appel myFunction(50);
+    appel myFunctionFloat(50.0);
+}
+===========GIVEN TESTCASE===========
+fonction vide testOne(){
+    nombre x = 0;
+    analyse("Input a number: ", x);
+
+    pour(nombre i; i<10; i+=1){
+        imprimer("Hello " +x+);
+
+}
+fonction vide testTwo(decimale x){
+    si(x = 4){
+        imprimer(x);
+    };
+}
+
+essentiel{
+    decimale value = (5 * 1) + (5 * 5 / 1 + 3 + (4 + (5 * 3))) / 2.0 * 8.0;
+
+    appel testOne()(x);
+    appel testTwo(123 ++value);
+}
+===========GIVEN TESTCASE===========
+fonction vide test(){
+	imprimer("ello");
+}
+
+essentiel{
+	appel tefdfst();
+}
+===========GIVEN TESTCASE===========
+fonction vide test(){
+	impmer("ello");
+}
+
+essentiel{
+	appel test();
+}
+===========GIVEN TESTCASE===========
+fonction vide sayHelloWorld(){
+	impremer(“Hello world”);
+}
+
+fonction vide sayHelloWorld(){
+	impremer(“Hello world”);
+}
