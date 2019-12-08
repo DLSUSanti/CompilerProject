@@ -56,7 +56,7 @@ fonction decimale grade(){
 
 essentiel{
     decimale lol = appel grade();
-    impremer("grade" + lol);
+    imprimer("grade" + lol);
 }
 ```
 #### Function Parenthesis
